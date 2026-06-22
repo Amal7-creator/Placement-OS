@@ -127,11 +127,11 @@ html{
       </a>
 
       <!-- LOGOUT -->
-      <a href="#"
-   onclick="localStorage.removeItem('loggedIn'); window.location.href='intro.html';">
+    <a href="#"
+   onclick="localStorage.removeItem('loggedIn'); window.location.href='intro.html'; return false;"
+   class="bg-blue-600 hover:bg-blue-700 transition px-5 py-2 rounded-xl font-medium">
   Logout
 </a>
-    </div>
 
   </div>
 </header>
