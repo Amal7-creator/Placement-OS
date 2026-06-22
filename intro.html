@@ -4,395 +4,337 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>Placement OS | AI Placement Preparation</title>
+<title>Placement OS</title>
 
-<!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
 
-<!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-<!-- Font Awesome -->
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-
 <style>
-
 *{
-  font-family:'Poppins',sans-serif;
-  scroll-behavior:smooth;
+  font-family: 'Poppins', sans-serif;
 }
 
 body{
-
   background:
-  linear-gradient(rgba(4,8,20,0.88), rgba(4,8,20,0.92)),
-  url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop');
-
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-  background-attachment:fixed;
+  radial-gradient(circle at top left, rgba(59,130,246,0.15), transparent 30%),
+  radial-gradient(circle at bottom right, rgba(168,85,247,0.12), transparent 30%),
+  #060816;
 
   color:white;
   overflow-x:hidden;
 }
 
-/* Glow Effects */
-
-.glow1{
-  position:absolute;
-  width:400px;
-  height:400px;
-  background:#2563eb;
-  border-radius:50%;
-  filter:blur(130px);
-  opacity:0.18;
-  top:-120px;
-  left:-120px;
+html{
+  scroll-behavior:smooth;
 }
 
-.glow2{
-  position:absolute;
-  width:350px;
-  height:350px;
-  background:#8b5cf6;
-  border-radius:50%;
-  filter:blur(120px);
-  opacity:0.18;
-  bottom:-120px;
-  right:-120px;
+.glass{
+  background: rgba(17,24,39,0.65);
+  backdrop-filter: blur(14px);
+  border:1px solid rgba(255,255,255,0.08);
 }
-
-/* Navbar */
-
-.navbar{
-  background:rgba(15,23,42,0.55);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid rgba(255,255,255,0.08);
-}
-
-/* Buttons */
 
 .main-btn{
-  padding:15px 30px;
-  border-radius:18px;
+  min-width:220px;
+  text-align:center;
+  padding:14px 24px;
+  border-radius:16px;
+  font-weight:600;
+  transition:0.3s ease;
+  display:inline-block;
+}
+
+.main-btn:hover{
+  transform:translateY(-4px);
+  box-shadow:0 10px 25px rgba(59,130,246,0.35);
+}
+
+.card{
+  transition:0.35s ease;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  border-color:#3b82f6;
+  box-shadow:0 0 30px rgba(59,130,246,0.18);
+}
+
+.glow{
+  box-shadow:0 0 50px rgba(59,130,246,0.30);
+}
+
+.dashboard-btn{
+  background:linear-gradient(to right,#2563eb,#06b6d4);
+  padding:10px 18px;
+  border-radius:14px;
   font-weight:600;
   transition:0.3s ease;
 }
 
-.main-btn:hover{
+.dashboard-btn:hover{
   transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(59,130,246,0.4);
 }
 
-.login-btn{
-  background:linear-gradient(to right,#2563eb,#06b6d4);
+::-webkit-scrollbar{
+  width:8px;
 }
 
-.login-btn:hover{
-  box-shadow:0 10px 30px rgba(37,99,235,0.45);
+::-webkit-scrollbar-thumb{
+  background:#3b82f6;
+  border-radius:20px;
 }
-
-.secondary-btn{
-  background:#111827;
-  border:1px solid #374151;
-}
-
-.secondary-btn:hover{
-  border-color:#3b82f6;
-}
-
-/* Cards */
-
-.feature-card{
-  background:rgba(17,24,39,0.75);
-  border:1px solid rgba(255,255,255,0.06);
-  backdrop-filter:blur(18px);
-  transition:0.3s ease;
-}
-
-.feature-card:hover{
-  transform:translateY(-8px);
-  border-color:#3b82f6;
-  box-shadow:0 15px 40px rgba(59,130,246,0.15);
-}
-
-/* Hero Gradient Text */
-
-.gradient-text{
-  background:linear-gradient(to right,#60a5fa,#22d3ee,#a78bfa);
-
-  -webkit-background-clip:text;
-  
-  -webkit-text-fill-color:transparent;
-}
-
-/* Animation */
-
-.fade-up{
-  animation:fadeUp 1s ease;
-}
-
-@keyframes fadeUp{
-
-  from{
-    opacity:0;
-    transform:translateY(40px);
-  }
-
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-
-}
-
 </style>
 </head>
 
 <body>
 
- <script>
-  if (localStorage.getItem("loggedIn") === "true") {
-    window.location.href = "index.html";
+  <script>
+  if (localStorage.getItem("loggedIn") !== "true") {
+    window.location.href = "intro.html";
   }
 </script>
 
-<!-- GLOW EFFECTS -->
-<div class="glow1"></div>
-<div class="glow2"></div>
-
 <!-- NAVBAR -->
-<nav class="navbar fixed w-full top-0 z-50 px-4 md:px-10 py-3 flex items-center justify-between">
+<header class="sticky top-0 z-50 backdrop-blur-xl bg-black/20 border-b border-white/5">
 
-  <!-- LOGO -->
-  <div class="flex items-center gap-2">
+  <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
 
-    <div class="w-9 h-9 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-400 flex items-center justify-center text-lg shadow-lg shadow-blue-500/30">
-      <i class="fa-solid fa-code"></i>
-    </div>
+    <!-- LOGO -->
+    <div class="flex items-center gap-3">
 
-    <h1 class="text-xl font-bold">
-      Placement OS
-    </h1>
+      <div class="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center text-2xl glow">
+        🚀
+      </div>
 
-  </div>
-
-  <!-- LOGIN BUTTON -->
-  <a href="login.html">
-
-    <button class="main-btn login-btn text-white flex items-center gap-2 px-3 py-1.5 text-sm">
-
-      <i class="fa-solid fa-right-to-bracket"></i>
-      Login
-
-    </button>
-
-  </a>
-
-</nav>
-
-<!-- HERO SECTION -->
-<section class="min-h-screen flex items-center justify-center text-center px-6 relative z-10">
-
-  <div class="max-w-5xl fade-up">
-
-    <!-- BADGE -->
-    <div class="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-[#111827]/70 border border-gray-700 mb-8">
-
-      <i class="fa-solid fa-sparkles text-cyan-400"></i>
-
-      
+      <div>
+        <h1 class="text-2xl font-bold">Placement OS</h1>
+        <p class="text-xs text-gray-400">
+          AI Placement Preparation Platform
+        </p>
+      </div>
 
     </div>
 
-    <!-- TITLE -->
-    <h1 class="text-5xl md:text-7xl font-extrabold leading-tight">
+    <!-- RIGHT SIDE BUTTONS -->
+    <div class="flex items-center gap-4">
 
-      Crack Your <span class="gradient-text">Dream Placement</span>
+      <!-- USER DASHBOARD BUTTON -->
+      <a href="details.html" class="dashboard-btn">
+        👤 User Dashboard
+      </a>
 
-      <br>
-
-      With AI Guidance
-
-    </h1>
-
-    <!-- DESCRIPTION -->
-    <p class="mt-8 text-gray-300 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
-
-      Master DSA, Aptitude, Resume Building, Mock Interviews,
-      and Company Preparation with one powerful AI-driven platform
-      designed specially for CSE students.
-
-    </p>
-
-    <!-- BUTTONS -->
-    <div class="mt-12 flex flex-col md:flex-row items-center justify-center gap-5">
-
-      <a href="login.html">
-
-        <button class="main-btn login-btn text-white flex items-center gap-3">
-
-          <i class="fa-solid fa-rocket"></i>
-          Get Started
-
-        </button>
-
+      <!-- LOGOUT -->
+      <a href="intro.html"
+         class="bg-blue-600 hover:bg-blue-700 transition px-5 py-2 rounded-xl font-medium">
+        Logout
       </a>
 
     </div>
 
-    <!-- STATS -->
-    <div class="mt-16 grid md:grid-cols-3 gap-6">
+  </div>
+</header>
 
-      <div class="feature-card p-6 rounded-3xl">
+<!-- HERO SECTION -->
+<section class="relative px-6 py-28 text-center overflow-hidden">
 
-        <h2 class="text-4xl font-bold text-cyan-400">
-          500+
-        </h2>
+  <!-- GLOW EFFECTS -->
+  <div class="absolute top-0 left-0 w-72 h-72 bg-blue-500 rounded-full blur-[120px] opacity-20"></div>
 
-        <p class="mt-3 text-gray-400">
-          Company Preparation Tracks
-        </p>
+  <div class="absolute bottom-0 right-0 w-72 h-72 bg-purple-500 rounded-full blur-[120px] opacity-20"></div>
 
-      </div>
+  <div class="relative z-10 max-w-5xl mx-auto">
 
-      <div class="feature-card p-6 rounded-3xl">
+    <!-- TOP TAG -->
+    <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm mb-8">
+      ⚡ AI Powered Placement Guidance
+    </div>
 
-        <h2 class="text-4xl font-bold text-cyan-400">
-          AI
-        </h2>
+    <!-- MAIN TITLE -->
+    <h1 class="text-5xl md:text-7xl font-extrabold leading-tight">
+      Crack Your College <br>
 
-        <p class="mt-3 text-gray-400">
-          Personalized Roadmaps & Guidance
-        </p>
+      <span class="bg-gradient-to-r from-blue-400 to-cyan-300 text-transparent bg-clip-text">
+        Placements Smarter
+      </span>
+    </h1>
 
-      </div>
+    <!-- DESCRIPTION -->
+    <p class="mt-8 text-lg text-gray-300 max-w-3xl mx-auto">
+      Your all-in-one AI placement preparation platform with company roadmaps,
+      DSA practice, resume analysis, aptitude preparation, and mock interview guidance.
+    </p>
 
-      <div class="feature-card p-6 rounded-3xl">
+    <!-- HERO BUTTONS -->
+    <div class="mt-12 flex flex-wrap justify-center gap-5">
 
-        <h2 class="text-4xl font-bold text-cyan-400">
-          24/7
-        </h2>
+      <a href="prepration.html"
+         class="main-btn bg-blue-600 hover:bg-blue-700 glow">
+        🚀 Start Preparation
+      </a>
 
-        <p class="mt-3 text-gray-400">
-          Smart Learning & Interview Practice
-        </p>
+      <a href="DSA.html"
+         class="main-btn bg-[#111827] border border-gray-700 hover:border-blue-500">
+        📚 DSA Algorithm
+      </a>
 
-      </div>
 
     </div>
 
   </div>
-
 </section>
 
 <!-- FEATURES SECTION -->
-<section class="px-6 md:px-16 py-24 relative z-10">
+<section class="px-6 py-24 bg-black/20">
 
-  <div class="text-center">
+  <!-- SECTION TITLE -->
+  <div class="max-w-6xl mx-auto text-center">
 
     <h2 class="text-4xl font-bold">
-      Everything You Need To Get Placed
+      Everything You Need In One Platform
     </h2>
 
-    <p class="text-gray-400 mt-4 text-lg">
-      Smart tools built for modern placement preparation
+    <p class="mt-4 text-gray-400">
+      Smart AI tools to make your placement preparation easy.
     </p>
 
   </div>
 
-  <!-- FEATURES -->
-  <div class="grid md:grid-cols-3 gap-8 mt-16">
+  <!-- FEATURE CARDS -->
+  <div class="mt-14 grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
 
-    <!-- CARD 1 -->
-    <div class="feature-card rounded-3xl p-8">
+    <!-- AI DOUBT SOLVER -->
+    <a href="AI.html"
+       class="glass rounded-3xl p-8 card block hover:border-blue-500">
 
-      <div class="text-4xl text-cyan-400">
-        <i class="fa-solid fa-brain"></i>
-      </div>
+      <div class="text-4xl">🤖</div>
 
-      <h3 class="text-2xl font-bold mt-6">
-        AI Roadmaps
+      <h3 class="text-2xl font-semibold mt-5">
+        AI Doubt Solver
       </h3>
 
-      <p class="text-gray-400 mt-4 leading-relaxed">
-        Personalized daily preparation plans based on your target companies and skill level.
+      <p class="text-gray-400 mt-4">
+        Solve DSA, aptitude, and interview doubts instantly.
       </p>
 
-    </div>
+    </a>
 
-    <!-- CARD 2 -->
-    <div class="feature-card rounded-3xl p-8">
+    <!-- RESUME ANALYZER -->
+    <a href="resume.html"
+       class="glass rounded-3xl p-8 card block hover:border-blue-500">
 
-      <div class="text-4xl text-cyan-400">
-        <i class="fa-solid fa-laptop-code"></i>
-      </div>
+      <div class="text-4xl">📝</div>
 
-      <h3 class="text-2xl font-bold mt-6">
-        DSA Practice
+      <h3 class="text-2xl font-semibold mt-5">
+        Resume Analyzer
       </h3>
 
-      <p class="text-gray-400 mt-4 leading-relaxed">
-        Practice coding questions asked in top product and service companies.
+      <p class="text-gray-400 mt-4">
+        Get AI-powered resume scoring and improvement tips.
       </p>
 
-    </div>
+    </a>
 
-    <!-- CARD 3 -->
-    <div class="feature-card rounded-3xl p-8">
+    <!-- ROADMAP -->
+    <a href="Coding Studio.html"
+       class="glass rounded-3xl p-8 card block hover:border-blue-500">
 
-      <div class="text-4xl text-cyan-400">
-        <i class="fa-solid fa-user-tie"></i>
-      </div>
+      <div class="text-4xl">💻</div>
 
-      <h3 class="text-2xl font-bold mt-6">
+      <h3 class="text-2xl font-semibold mt-5">
+        Coding Studio
+      </h3>
+
+      <p class="text-gray-400 mt-4">
+        Follow structured company-wise preparation roadmaps.
+      </p>
+
+    </a>
+
+    <!-- MOCK INTERVIEW -->
+    <a href="mockAi.html"
+       class="glass rounded-3xl p-8 card block hover:border-blue-500">
+
+      <div class="text-4xl">🎤</div>
+
+      <h3 class="text-2xl font-semibold mt-5">
         Mock Interviews
       </h3>
 
-      <p class="text-gray-400 mt-4 leading-relaxed">
-        Build confidence with AI-powered technical and HR interview simulations.
+      <p class="text-gray-400 mt-4">
+        Practice technical and HR interviews with AI.
       </p>
 
-    </div>
-
-  </div>
-
-</section>
-
-<!-- CTA SECTION -->
-<section class="px-6 py-24 text-center relative z-10">
-
-  <div class="max-w-4xl mx-auto feature-card rounded-[40px] p-12">
-
-    <h2 class="text-5xl font-bold leading-tight">
-      Ready To Start Your Placement Journey?
-    </h2>
-
-    <p class="text-gray-400 mt-6 text-lg">
-      Join Placement OS today and prepare smarter with AI.
-    </p>
-
-    <a href="login.html">
-
-      <button class="main-btn login-btn text-white mt-10 flex items-center gap-3 mx-auto">
-
-        <i class="fa-solid fa-arrow-right"></i>
-        Continue To Login
-
-      </button>
-
     </a>
+
+    <!-- USER DASHBOARD CARD -->
+    <!a href="dashboard.html"
+       class="glass rounded-3xl p-8 card block hover:border-blue-500">
+
+      <!div class="text-4xl"><!👤<!/div>
+
+      <!h3 class="text-2xl font-semibold mt-5">
+       <! User Dashboard
+      <!/h3>
+
+      <!p class="text-gray-400 mt-4">
+        <!Track your progress, completed tasks, and preparation analytics.
+      <!/p>
+
+    <!/a>
+
+    <!-- DAILY PRACTICE -->
+    <!a href="dailypractice.html"
+       <!class="glass rounded-3xl p-8 card block hover:border-blue-500">
+
+      <!div class="text-4xl"><!📚<!/div>
+
+      <!h3 class="text-2xl font-semibold mt-5">
+      <!  Daily Practice
+      <!/h3>
+
+      <!p class="text-gray-400 mt-4">
+       <! Improve aptitude, coding, and interview skills every day.
+      <!/p>
+
+    <!/a>
 
   </div>
 
 </section>
 
 <!-- FOOTER -->
-<footer class="text-center py-10 text-gray-500 text-sm relative z-10">
+<footer class="border-t border-white/5 py-10 text-center">
 
-  Built for CSE Students • Placement OS © 2026
+  <p class="text-gray-500">
+    Built with ❤️ by a CSE Student • Placement OS © 2026
+  </p>
+
+</footer>
+
+<footer class="mt-10 py-6 text-center text-gray-400 border-t border-gray-700">
+
+<a href="privacy.html" class="hover:text-white">
+Privacy Policy
+</a> |
+
+<a href="terms.html" class="hover:text-white">
+Terms & Conditions
+</a> |
+
+<a href="refund.html" class="hover:text-white">
+Refund Policy
+</a> |
+
+<a href="pricing.html" class="hover:text-white">
+pricing
+</a> |
+
+<a href="contact.html" class="hover:text-white">
+Contact Us
+</a>
 
 </footer>
 
