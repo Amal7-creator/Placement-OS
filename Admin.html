@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel - Placement OS LMS</title>
+
+<style>
+body{
+  font-family: Arial;
+  background:#0f172a;
+  color:white;
+  padding:20px;
+}
+
+.box{
+  max-width:650px;
+  margin:auto;
+  background:#111827;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:20px;
+}
+
+input, select, textarea{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border-radius:8px;
+  border:none;
+  outline:none;
+  box-sizing:border-box;
+}
+
+textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  background:#2563eb;
+  border:none;
+  color:white;
+  cursor:pointer;
+  border-radius:8px;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+button:hover{
+  background:#1d4ed8;
+}
+
+.logout-btn{
+  background:#dc2626;
+}
+
+.logout-btn:hover{
+  background:#b91c1c;
+}
+
+.hidden{
+  display:none;
+}
+
+h2{
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div class="box" id="loginBox">
+  <h2>Admin Login</h2>
+
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Password">
+
+  <button onclick="login()">Login</button>
+</div>
+
+<!-- ADMIN -->
+<div class="box hidden" id="adminBox">
+
+  <h2>Add Question</h2>
+
+  <!-- LOGOUT BUTTON -->
+  <button class="logout-btn" onclick="logout()">
+    Logout
+  </button>
+
+  <input type="text" id="question" placeholder="Enter Question">
+
+  <input type="text" id="opt1" placeholder="Option 1">
+  <input type="text" id="opt2" placeholder="Option 2">
+  <input type="text" id="opt3" placeholder="Option 3">
+  <input type="text" id="opt4" placeholder="Option 4">
+
+  <input type="text" id="answer" placeholder="Correct Answer">
+
+  <!-- EXPLANATION -->
+  <textarea id="explanation" placeholder="Write Explanation (Why this is correct)"></textarea>
+
+  <select id="category" onchange="updateTopics()">
+    <option value="">-- Select Category --</option>
+    <option value="dsa">DSA</option>
+    <option value="aptitude">Aptitude</option>
+    <option value="logical">Logical Reasoning</option>
+    <option value="verbal">Verbal</option>
+  </select>
+
+  <select id="topic">
+    <option value="">-- Select Topic --</option>
+  </select>
+
+  <select id="difficulty">
+    <option>Easy</option>
+    <option>Medium</option>
+    <option>Hard</option>
+  </select>
+
+  <div id="inputDataBox" class="hidden">
+    <input type="text" id="inputData" placeholder="Example Input Data (Optional)">
+  </div>
+
+  <button onclick="addQuestion()">
+    Upload Question
+  </button>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAyOMZBRao9kSfPwwIDGbKJMYlYz4xv1Vs",
+  authDomain: "placement-os-b85cd.firebaseapp.com",
+  projectId: "placement-os-b85cd",
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+/* LOGIN */
+window.login = function(){
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const password =
+    document.getElementById("password").value;
+
+  if(!email || !password){
+    alert("Please enter email and password");
+    return;
+  }
+
+  signInWithEmailAndPassword(auth,email,password)
+    .then(()=>{
+      alert("Login Successful");
+    })
+    .catch(err=>{
+      alert(err.message);
+    });
+};
+
+/* AUTH STATE */
+onAuthStateChanged(auth,(user)=>{
+
+  document
+    .getElementById("loginBox")
+    .classList.toggle("hidden", !!user);
+
+  document
+    .getElementById("adminBox")
+    .classList.toggle("hidden", !user);
+
+});
+
+/* LOGOUT */
+window.logout = async function(){
+
+  try{
+
+    await signOut(auth);
+
+    alert("Logged Out Successfully");
+
+  }catch(error){
+
+    alert(error.message);
+
+  }
+
+};
+
+/* TOPICS */
+
+const topics = {
+
+  dsa: [
+    "Arrays","Strings","Hashing","Matrix","Linked List","Stack","Queue","Recursion",
+    "Searching","Binary Search","Sorting","Two Pointer","Sliding Window","Prefix Sum",
+    "Binary Tree","BST","AVL Tree","Red Black Tree","Tree Traversal","Lowest Common Ancestor",
+    "Tree DP","Heap","Trie","Graph","Greedy","Backtracking","Bit Manipulation","DSU",
+    "Segment Tree","1D DP","2D DP","Knapsack","LIS","LCS","Digit DP","Bitmask DP",
+    "Tree DP","Interval DP"
+  ],
+
+  aptitude: [
+    "Number System","Percentages","Profit & Loss","Ratio & Proportion","Time & Work",
+    "Time, Speed & Distance","Probability","Permutation & Combination",
+    "Pipes & Cisterns","Averages","Simple Interest","Compound Interest"
+  ],
+
+  logical: [
+    "Coding-Decoding","Blood Relations","Seating Arrangement","Syllogism",
+    "Puzzle Questions","Direction Sense","Calendar Problems",
+    "Clocks","Series"
+  ],
+
+  verbal: [
+    "Grammar","Sentence Correction","Synonyms & Antonyms",
+    "Error Detection","Vocabulary","Reading Comprehension",
+    "Para Jumbles","Sentence Completion",
+    "Idioms & Phrases","One Word Substitution"
+  ]
+
+};
+
+/* UPDATE TOPICS */
+
+window.updateTopics = function(){
+
+  const category =
+    document.getElementById("category").value;
+
+  const topicSelect =
+    document.getElementById("topic");
+
+  const inputDataBox =
+    document.getElementById("inputDataBox");
+
+  topicSelect.innerHTML =
+    `<option value="">-- Select Topic --</option>`;
+
+  if(topics[category]){
+
+    topics[category].forEach(topic=>{
+
+      topicSelect.innerHTML += `
+        <option value="${topic.toLowerCase().replace(/ /g,'_')}">
+          ${topic}
+        </option>
+      `;
+
+    });
+
+  }
+
+  inputDataBox.classList.toggle(
+    "hidden",
+    category !== "dsa"
+  );
+};
+
+/* ADD QUESTION */
+
+window.addQuestion = async function(){
+
+  const question =
+    document.getElementById("question").value;
+
+  const opt1 =
+    document.getElementById("opt1").value;
+
+  const opt2 =
+    document.getElementById("opt2").value;
+
+  const opt3 =
+    document.getElementById("opt3").value;
+
+  const opt4 =
+    document.getElementById("opt4").value;
+
+  const answer =
+    document.getElementById("answer").value;
+
+  const explanation =
+    document.getElementById("explanation").value;
+
+  const category =
+    document.getElementById("category").value;
+
+  const topic =
+    document.getElementById("topic").value;
+
+  const difficulty =
+    document.getElementById("difficulty").value;
+
+  const inputData =
+    document.getElementById("inputData").value;
+
+  if(
+    !question ||
+    !opt1 ||
+    !opt2 ||
+    !opt3 ||
+    !opt4 ||
+    !answer ||
+    !category ||
+    !topic
+  ){
+    alert("Please fill all required fields");
+    return;
+  }
+
+  try{
+
+    await addDoc(collection(db,"questions"),{
+
+      question,
+
+      options:[
+        opt1,
+        opt2,
+        opt3,
+        opt4
+      ],
+
+      answer,
+      explanation,
+      category,
+      topic,
+      difficulty,
+
+      inputData: inputData || "",
+
+      createdAt:new Date()
+
+    });
+
+    alert("Question Added Successfully!");
+
+    document
+      .querySelectorAll(
+        "#adminBox input, #adminBox textarea"
+      )
+      .forEach(el => el.value = "");
+
+    document.getElementById("category").value = "";
+
+    document.getElementById("topic").innerHTML =
+      `<option value="">-- Select Topic --</option>`;
+
+    document.getElementById("difficulty").value =
+      "Easy";
+
+    document
+      .getElementById("inputDataBox")
+      .classList.add("hidden");
+
+  }catch(error){
+
+    alert(error.message);
+
+  }
+
+};
+
+</script>
+
+</body>
+</html>

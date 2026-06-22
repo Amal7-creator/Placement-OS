@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Placement OS - Progress Tracker</title>
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Font Awesome -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<!-- Google Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background:
+  linear-gradient(rgba(5,8,22,0.92), rgba(5,8,22,0.95)),
+  url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop');
+
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+
+  color:white;
+  min-height:100vh;
+}
+
+/* Glass */
+.glass{
+  background:rgba(17,24,39,0.75);
+  border:1px solid rgba(255,255,255,0.08);
+  backdrop-filter:blur(18px);
+  box-shadow:0 10px 30px rgba(0,0,0,0.35);
+}
+
+/* Inputs */
+.input-box{
+  width:100%;
+  padding:14px;
+  border-radius:16px;
+  background:#0f172a;
+  border:1px solid #1e293b;
+  color:white;
+  outline:none;
+  transition:0.3s;
+}
+
+.input-box:focus{
+  border-color:#3b82f6;
+  box-shadow:0 0 20px rgba(59,130,246,0.25);
+}
+
+/* Buttons */
+.main-btn{
+  padding:14px 22px;
+  border-radius:16px;
+  background:linear-gradient(to right,#2563eb,#06b6d4);
+  transition:0.3s;
+  font-weight:600;
+}
+
+.main-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 25px rgba(37,99,235,0.35);
+}
+
+/* Card Hover */
+.card-hover{
+  transition:0.3s;
+}
+
+.card-hover:hover{
+  transform:translateY(-5px);
+  border-color:#3b82f6;
+}
+
+/* Progress Bar */
+.progress-bg{
+  background:#1e293b;
+}
+
+.progress-fill{
+  background:linear-gradient(to right,#2563eb,#06b6d4);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#2563eb;
+  border-radius:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="glass sticky top-0 z-50 flex justify-between items-center px-6 py-5 border-b border-gray-800">
+
+  <div class="flex items-center gap-3">
+
+    <div class="w-12 h-12 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-400 flex items-center justify-center text-xl">
+      <i class="fa-solid fa-chart-line"></i>
+    </div>
+
+    <div>
+      <h1 class="text-2xl font-bold">
+        Placement OS
+      </h1>
+
+      <p class="text-sm text-gray-400">
+        Daily Progress Tracker
+      </p>
+    </div>
+
+  </div>
+
+  <a href="index.html"
+  class="text-blue-400 hover:text-blue-300 transition">
+    ← Back
+  </a>
+
+</div>
+
+<!-- HEADER -->
+<section class="px-6 py-10">
+
+  <div class="max-w-7xl mx-auto">
+
+    <div class="glass rounded-[30px] p-8">
+
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+
+        <div>
+
+          <h2 class="text-4xl font-bold">
+            📅 Placement Progress Calendar
+          </h2>
+
+          <p class="text-gray-400 mt-3">
+            Track your coding, aptitude, learning progress, and consistency daily.
+          </p>
+
+        </div>
+
+        <div class="flex gap-4 flex-wrap">
+
+          <input type="date"
+          id="dateInput"
+          class="input-box w-[220px]">
+
+          <button onclick="saveProgress()"
+          class="main-btn">
+            Save Progress
+          </button>
+          <!-- ADD THIS BELOW THE "Save Progress" BUTTON -->
+
+<a href="report.html">
+  <button class="main-btn">
+    📊 View Reports
+  </button>
+</a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- TRACKER -->
+<section class="px-6 pb-16">
+
+<div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8">
+
+<!-- LEFT -->
+<div class="space-y-6">
+
+  <!-- DSA -->
+  <div class="glass rounded-3xl p-6 card-hover">
+
+    <div class="flex justify-between mb-4">
+
+      <h3 class="text-xl font-bold">
+        💻 Problems Solved
+      </h3>
+
+      <span id="problemCountText">0</span>
+
+    </div>
+
+    <input type="range"
+    min="0"
+    max="50"
+    value="0"
+    id="problems"
+    class="w-full"
+    oninput="updateValue('problems','problemCountText')">
+
+  </div>
+
+  <!-- APTITUDE -->
+  <div class="glass rounded-3xl p-6 card-hover">
+
+    <div class="flex justify-between mb-4">
+
+      <h3 class="text-xl font-bold">
+        🧠 Aptitude Completion
+      </h3>
+
+      <span id="aptitudeText">0%</span>
+
+    </div>
+
+    <input type="range"
+    min="0"
+    max="100"
+    value="0"
+    id="aptitude"
+    class="w-full"
+    oninput="updatePercentage('aptitude','aptitudeText')">
+
+  </div>
+
+  <!-- LEARNING -->
+  <div class="glass rounded-3xl p-6 card-hover">
+
+    <div class="flex justify-between mb-4">
+
+      <h3 class="text-xl font-bold">
+        📚 Learning Progress
+      </h3>
+
+      <span id="learningText">0%</span>
+
+    </div>
+
+    <input type="range"
+    min="0"
+    max="100"
+    value="0"
+    id="learning"
+    class="w-full"
+    oninput="updatePercentage('learning','learningText')">
+
+  </div>
+
+  <!-- PORTIONS -->
+  <div class="glass rounded-3xl p-6 card-hover">
+
+    <div class="flex justify-between mb-4">
+
+      <h3 class="text-xl font-bold">
+        ✅ Portions Covered
+      </h3>
+
+      <span id="portionText">0%</span>
+
+    </div>
+
+    <input type="range"
+    min="0"
+    max="100"
+    value="0"
+    id="portion"
+    class="w-full"
+    oninput="updatePercentage('portion','portionText')">
+
+  </div>
+
+</div>
+
+<!-- RIGHT -->
+<div class="space-y-6">
+
+  <!-- NOTES -->
+  <div class="glass rounded-3xl p-6">
+
+    <h3 class="text-2xl font-bold mb-5">
+      📝 Daily Notes
+    </h3>
+
+    <textarea
+    id="notes"
+    rows="8"
+    placeholder="Write what you learned today..."
+    class="input-box resize-none"></textarea>
+
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="glass rounded-3xl p-6">
+
+    <h3 class="text-2xl font-bold mb-6">
+      📊 Today's Summary
+    </h3>
+
+    <div class="space-y-6">
+
+      <!-- Problems -->
+      <div>
+
+        <div class="flex justify-between mb-2">
+          <span>Problems Solved</span>
+          <span id="summaryProblems">0</span>
+        </div>
+
+        <div class="progress-bg rounded-full h-4 overflow-hidden">
+          <div id="barProblems"
+          class="progress-fill h-4 w-0"></div>
+        </div>
+
+      </div>
+
+      <!-- Aptitude -->
+      <div>
+
+        <div class="flex justify-between mb-2">
+          <span>Aptitude</span>
+          <span id="summaryAptitude">0%</span>
+        </div>
+
+        <div class="progress-bg rounded-full h-4 overflow-hidden">
+          <div id="barAptitude"
+          class="progress-fill h-4 w-0"></div>
+        </div>
+
+      </div>
+
+      <!-- Learning -->
+      <div>
+
+        <div class="flex justify-between mb-2">
+          <span>Learning</span>
+          <span id="summaryLearning">0%</span>
+        </div>
+
+        <div class="progress-bg rounded-full h-4 overflow-hidden">
+          <div id="barLearning"
+          class="progress-fill h-4 w-0"></div>
+        </div>
+
+      </div>
+
+      <!-- Portion -->
+      <div>
+
+        <div class="flex justify-between mb-2">
+          <span>Portion Covered</span>
+          <span id="summaryPortion">0%</span>
+        </div>
+
+        <div class="progress-bg rounded-full h-4 overflow-hidden">
+          <div id="barPortion"
+          class="progress-fill h-4 w-0"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+</section>
+
+<script>
+
+function updateValue(inputId,textId){
+
+  const value =
+  document.getElementById(inputId).value;
+
+  document.getElementById(textId).innerText = value;
+
+  document.getElementById("summaryProblems").innerText = value;
+
+  document.getElementById("barProblems").style.width =
+  (value * 2) + "%";
+}
+
+function updatePercentage(inputId,textId){
+
+  const value =
+  document.getElementById(inputId).value;
+
+  document.getElementById(textId).innerText =
+  value + "%";
+
+  if(inputId === "aptitude"){
+
+    document.getElementById("summaryAptitude").innerText =
+    value + "%";
+
+    document.getElementById("barAptitude").style.width =
+    value + "%";
+  }
+
+  if(inputId === "learning"){
+
+    document.getElementById("summaryLearning").innerText =
+    value + "%";
+
+    document.getElementById("barLearning").style.width =
+    value + "%";
+  }
+
+  if(inputId === "portion"){
+
+    document.getElementById("summaryPortion").innerText =
+    value + "%";
+
+    document.getElementById("barPortion").style.width =
+    value + "%";
+  }
+
+}
+
+function saveProgress(){
+
+  const data = {
+
+    date:
+    document.getElementById("dateInput").value,
+
+    problems:
+    document.getElementById("problems").value,
+
+    aptitude:
+    document.getElementById("aptitude").value,
+
+    learning:
+    document.getElementById("learning").value,
+
+    portion:
+    document.getElementById("portion").value,
+
+    notes:
+    document.getElementById("notes").value
+  };
+
+  localStorage.setItem(
+    "placementProgress_" + data.date,
+    JSON.stringify(data)
+  );
+
+  alert("✅ Progress Saved Successfully!");
+}
+
+</script>
+</footer>
+
+<footer class="mt-10 py-6 text-center text-gray-400 border-t border-gray-700">
+
+
+<a href="terms.html" class="hover:text-white">
+Terms & Conditions
+</a> 
+
+
+</a>
+
+</footer>
+</body>
+</html>

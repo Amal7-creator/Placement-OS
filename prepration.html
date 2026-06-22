@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Placement OS AI Tutor</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+min-height:100vh;
+background:
+linear-gradient(
+135deg,
+#0f172a,
+#111827,
+#1e293b
+);
+color:white;
+padding:30px;
+}
+
+.container{
+max-width:1400px;
+margin:auto;
+display:grid;
+grid-template-columns:320px 1fr;
+gap:25px;
+}
+
+.left{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(15px);
+border:1px solid rgba(255,255,255,0.08);
+border-radius:24px;
+padding:30px;
+text-align:center;
+box-shadow:
+0 10px 40px rgba(0,0,0,.4);
+}
+
+.avatar{
+width:220px;
+height:220px;
+margin:auto;
+border-radius:50%;
+background:
+linear-gradient(
+135deg,
+#3b82f6,
+#06b6d4
+);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:90px;
+box-shadow:
+0 0 50px rgba(59,130,246,.5);
+animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+50%{
+transform:translateY(-12px);
+}
+}
+
+.speaking{
+animation:speak .6s infinite;
+}
+
+@keyframes speak{
+50%{
+transform:scale(1.08);
+}
+}
+
+.name{
+font-size:28px;
+font-weight:700;
+margin-top:20px;
+}
+
+.status{
+display:inline-block;
+margin-top:15px;
+padding:8px 18px;
+background:#10b981;
+border-radius:50px;
+font-size:14px;
+font-weight:600;
+}
+
+.right{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(15px);
+border:1px solid rgba(255,255,255,0.08);
+border-radius:24px;
+padding:30px;
+box-shadow:
+0 10px 40px rgba(0,0,0,.4);
+}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.header h2{
+font-size:30px;
+}
+
+.header p{
+color:#94a3b8;
+}
+
+.topic-box{
+display:flex;
+gap:15px;
+margin-bottom:20px;
+}
+
+select{
+flex:1;
+padding:16px;
+border:none;
+border-radius:14px;
+background:#1f2937;
+color:white;
+font-size:15px;
+outline:none;
+}
+
+button{
+border:none;
+padding:16px 25px;
+border-radius:14px;
+background:
+linear-gradient(
+135deg,
+#3b82f6,
+#06b6d4
+);
+color:white;
+font-weight:600;
+cursor:pointer;
+transition:.3s;
+}
+
+button:hover{
+transform:translateY(-3px);
+box-shadow:
+0 10px 25px rgba(59,130,246,.4);
+}
+
+.output{
+margin-top:15px;
+background:#0f172a;
+border:1px solid rgba(255,255,255,0.05);
+padding:25px;
+border-radius:18px;
+min-height:300px;
+line-height:1.8;
+overflow:auto;
+white-space:pre-wrap;
+}
+
+.doubt-section{
+margin-top:25px;
+}
+
+.doubt-section h3{
+margin-bottom:10px;
+}
+
+textarea{
+width:100%;
+height:140px;
+padding:18px;
+border:none;
+border-radius:16px;
+background:#0f172a;
+color:white;
+resize:none;
+outline:none;
+}
+
+.ask-btn{
+margin-top:15px;
+width:100%;
+}
+
+
+.footer{
+width:100%;
+text-align:center;
+margin-top:30px;
+padding:20px;
+}
+
+.footer a{
+color:#94a3b8;
+text-decoration:none;
+font-weight:500;
+}
+
+.footer a:hover{
+color:white;
+}
+
+@media(max-width:1000px){
+
+.container{
+grid-template-columns:1fr;
+}
+
+.left{
+order:1;
+}
+
+.right{
+order:2;
+}
+
+.avatar{
+width:180px;
+height:180px;
+font-size:70px;
+}
+}
+
+
+
+.floating-back{
+position:fixed;
+top:20px;
+right:20px;
+z-index:1000;
+
+background:linear-gradient(135deg,#3b82f6,#06b6d4);
+color:white;
+
+padding:12px 22px;
+border:none;
+border-radius:12px;
+
+font-weight:600;
+cursor:pointer;
+
+box-shadow:0 10px 25px rgba(59,130,246,.35);
+transition:.3s;
+}
+
+.floating-back:hover{
+transform:translateY(-3px);
+}
+
+
+
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="left">
+
+<div id="avatar" class="avatar">
+🤖
+</div>
+
+<div class="name">
+Placement OS Tutor
+</div>
+
+<div class="status">
+Ready To Teach
+</div>
+
+</div>
+
+<div class="right">
+
+<button onclick="goBack()" class="floating-back">
+⬅ Dashboard
+</button>
+
+<h2>AI Placement Tutor</h2>
+
+<br>
+
+<label style="display:block;margin-bottom:8px;">
+🏢 Select Company
+</label>
+
+<select id="company" onchange="showCompanyPrep()">
+<option>TCS</option>
+<option>Infosys</option>
+<option>Wipro</option>
+<option>Accenture</option>
+<option>Cognizant</option>
+<option>Capgemini</option>
+<option>HCL</option>
+<option>Tech Mahindra</option>
+<option>Deloitte</option>
+<option>Amazon</option>
+<option>Google</option>
+<option>Microsoft</option>
+</select>
+
+<label style="display:block;margin-bottom:8px;">
+📚 Select Topic
+</label>
+
+<select id="topic">
+
+<optgroup label="📊 Aptitude">
+
+<option>Number System</option>
+<option>Percentages</option>
+<option>Profit & Loss</option>
+<option>Ratio & Proportion</option>
+<option>Time & Work</option>
+<option>Probability</option>
+<option>Permutation & Combination</option>
+<option>Pipes & Cisterns</option>
+<option>Averages</option>
+<option>Simple Interest</option>
+<option>Compound Interest</option>
+
+</optgroup>
+
+<optgroup label="🧠 Logical Reasoning">
+
+<option>Coding-Decoding</option>
+<option>Blood Relations</option>
+<option>Seating Arrangement</option>
+<option>Syllogism</option>
+<option>Puzzle Questions</option>
+<option>Direction Sense</option>
+<option>Calendar Problems</option>
+<option>Clocks</option>
+<option>Series Completion</option>
+
+</optgroup>
+
+<optgroup label="📖 Verbal Ability">
+
+<option>Grammar</option>
+<option>Synonyms & Antonyms</option>
+<option>Sentence Correction</option>
+<option>Error Detection</option>
+<option>Vocabulary</option>
+<option>Reading Comprehension</option>
+<option>Para Jumbles</option>
+<option>Active & Passive Voice</option>
+<option>Tenses</option>
+<option>Idioms & Phrases</option>
+<option>One Word Substitution</option>
+<option>Sentence Completion</option>
+
+</optgroup>
+
+</select>
+
+<button onclick="teachTheory()">
+📘 Teach Me
+</button>
+
+<div id="output" class="output">
+Select a topic and start learning.
+</div>
+
+<div id="moreQuestionsBox" style="
+display:none;
+margin-top:15px;
+padding:15px;
+background:#111827;
+border-radius:15px;
+">
+
+<h3>📖 Need More Practice?</h3>
+
+<button onclick="generateMoreQuestions('Medium')">
+📚 Medium
+</button>
+
+<button onclick="generateMoreQuestions('Hard')">
+🔥 Hard
+</button>
+
+<button onclick="generateMoreQuestions('Very Hard')">
+🚀 Very Hard
+</button>
+
+</div>
+
+<textarea id="doubt"
+placeholder="Ask your doubt..."></textarea>
+
+<button onclick="teachTheory()">
+📘 Learn Theory
+</button>
+
+<button onclick="generatePracticeQuestions()">
+🔥 Practice Questions
+</button>
+
+<button onclick="toggleVoice()" id="voiceBtn">
+🔊 Voice ON
+</button>
+
+
+
+
+<button onclick="pauseTyping()" id="pauseBtn">
+⏸ Pause
+</button>
+
+<button onclick="resumeTyping()" id="resumeBtn">
+▶ Resume
+</button>
+
+<button onclick="showAllText()">
+⏭ Skip
+</button>
+
+
+</div>
+
+</div>
+
+<script>
+
+const companyPatterns = {
+
+"TCS":{
+difficulty:"Easy-Medium",
+focus:[
+"Number System",
+"Percentages",
+"Profit & Loss",
+"Coding-Decoding",
+"Grammar",
+"Reading Comprehension"
+]
+},
+
+"Infosys":{
+difficulty:"Medium",
+focus:[
+"Probability",
+"Permutation & Combination",
+"Syllogism",
+"Puzzle Questions",
+"Vocabulary"
+]
+},
+
+"Wipro":{
+difficulty:"Medium",
+focus:[
+"Time & Work",
+"Ratio & Proportion",
+"Blood Relations",
+"Reading Comprehension"
+]
+},
+
+"Accenture":{
+difficulty:"Medium-Hard",
+focus:[
+"Probability",
+"Puzzle Questions",
+"Grammar",
+"Para Jumbles",
+"Seating Arrangement"
+]
+},
+
+"Cognizant":{
+difficulty:"Medium",
+focus:[
+"Number System",
+"Probability",
+"Coding-Decoding",
+"Vocabulary"
+]
+},
+
+"Capgemini":{
+difficulty:"Medium-Hard",
+focus:[
+"Logical Reasoning",
+"Puzzle Questions",
+"Grammar",
+"Reading Comprehension"
+]
+},
+
+"HCL":{
+difficulty:"Medium",
+focus:[
+"Percentages",
+"Ratio & Proportion",
+"Blood Relations",
+"Grammar"
+]
+},
+
+"Tech Mahindra":{
+difficulty:"Easy-Medium",
+focus:[
+"Averages",
+"Profit & Loss",
+"Coding-Decoding",
+"Vocabulary"
+]
+},
+
+"Deloitte":{
+difficulty:"Hard",
+focus:[
+"Probability",
+"Permutation & Combination",
+"Seating Arrangement",
+"Reading Comprehension"
+]
+},
+
+"Amazon":{
+difficulty:"Hard",
+focus:[
+"Problem Solving",
+"Probability",
+"Logical Reasoning",
+"Data Structures"
+]
+},
+
+"Google":{
+difficulty:"Very Hard",
+focus:[
+"Algorithms",
+"Data Structures",
+"Problem Solving",
+"Analytical Thinking"
+]
+},
+
+"Microsoft":{
+difficulty:"Very Hard",
+focus:[
+"Algorithms",
+"Data Structures",
+"System Design",
+"Problem Solving"
+]
+}
+
+};
+
+let voiceEnabled =
+localStorage.getItem("voiceEnabled") !== "false";
+
+let typingInterval;
+let currentText = "";
+let currentIndex = 0;
+let isPaused = false;
+
+function typeEffect(text){
+
+currentText = text;
+currentIndex = 0;
+isPaused = false;
+
+const output =
+document.getElementById("output");
+
+output.innerHTML = "";
+
+const avatar =
+document.getElementById("avatar");
+
+avatar.classList.add("speaking");
+
+typingInterval = setInterval(()=>{
+
+if(isPaused) return;
+
+output.innerHTML += currentText.charAt(currentIndex);
+
+currentIndex++;
+
+if(currentIndex >= currentText.length){
+
+clearInterval(typingInterval);
+
+avatar.classList.remove("speaking");
+
+const box =
+document.getElementById("moreQuestionsBox");
+
+if(box){
+box.style.display = "block";
+}
+
+if(voiceEnabled){
+speak(currentText);
+}
+
+}
+
+},15);
+
+}
+
+function showCompanyPrep(){
+
+const company =
+document.getElementById("company").value;
+
+const data =
+companyPatterns[company];
+
+if(!data){
+
+typeEffect(
+`${company} Interview Preparation
+
+All topics available.
+Practice aptitude, reasoning, verbal and coding regularly.
+`
+);
+
+return;
+
+}
+
+typeEffect(
+`${company} Interview Preparation
+
+Difficulty:
+${data.difficulty}
+
+Recommended Topics:
+
+${data.focus.join("\n")}
+`
+);
+
+}
+
+async function teachTheory(){
+
+const topic =
+document.getElementById("topic").value;
+
+const company =
+document.getElementById("company").value;
+
+typeEffect("Generating theory lesson...");
+
+try{
+
+const response = await fetch(
+"http://localhost:3000/ask-ai",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+
+question:`
+You are a placement trainer.
+
+Company: ${company}
+Topic: ${topic}
+
+Teach the topic.
+
+Include:
+
+1. Introduction
+2. Core Concepts
+3. Important Formulas
+4. Shortcut Tricks
+5. Solved Example
+6. Common Mistakes
+7. Interview Tips
+
+Make it easy to understand.
+`,
+
+history:[]
+})
+}
+);
+
+const data =
+await response.json();
+
+if(data.success){
+
+typeEffect(data.answer);
+
+}else{
+
+typeEffect(
+data.answer ||
+"Unable to generate theory."
+);
+
+}
+
+}catch(error){
+
+console.error(error);
+
+typeEffect(
+"Could not connect to AI tutor."
+);
+
+}
+
+}
+
+async function generatePracticeQuestions(){
+
+const topic =
+document.getElementById("topic").value;
+
+const company =
+document.getElementById("company").value;
+
+typeEffect("Generating practice questions...");
+
+try{
+
+const response = await fetch(
+"http://localhost:3000/ask-ai",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+
+question:`
+Generate 10 placement questions.
+
+Company:
+${company}
+
+Topic:
+${topic}
+
+Requirements:
+
+1. Two Easy Questions
+2. Three Medium Questions
+3. Three Hard Questions
+4. Two Very Hard Questions
+
+For EVERY question provide:
+
+Question
+4 Options
+Correct Answer
+Step-by-Step Solution
+Shortcut Method
+
+Questions should resemble real placement tests.
+`,
+
+history:[]
+})
+}
+);
+
+const data =
+await response.json();
+
+if(data.success){
+
+typeEffect(data.answer);
+
+}else{
+
+typeEffect(
+data.answer ||
+"Unable to generate questions."
+);
+
+}
+
+}catch(error){
+
+console.error(error);
+
+typeEffect(
+"Unable to generate questions."
+);
+
+}
+
+}
+
+async function generateMoreQuestions(level){
+
+const topic =
+document.getElementById("topic").value;
+
+const company =
+document.getElementById("company").value;
+
+typeEffect(`Generating ${level} Questions...`);
+
+try{
+
+const response = await fetch(
+"http://localhost:3000/ask-ai",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+
+question:`
+Generate 10 NEW ${level} placement questions.
+
+Company: ${company}
+Topic: ${topic}
+
+Requirements:
+
+1. 4 Options
+2. Correct Answer
+3. Detailed Solution
+4. Shortcut Method
+
+Questions must be unique and interview level.
+`,
+
+history:[]
+})
+}
+);
+
+const data = await response.json();
+
+if(data.success){
+
+typeEffect(data.answer);
+
+}else{
+
+typeEffect("Unable to generate questions.");
+
+}
+
+}catch(error){
+
+console.error(error);
+
+typeEffect("Connection error.");
+
+}
+
+}
+
+async function askDoubt(){
+
+const doubt =
+document.getElementById("doubt").value;
+
+if(!doubt.trim()){
+
+alert("Please enter a doubt.");
+
+return;
+
+}
+
+typeEffect("🤖 Thinking...");
+
+try{
+
+const response = await fetch(
+"http://localhost:3000/ask-ai",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+
+question:doubt,
+
+history:[]
+
+})
+}
+);
+
+const data =
+await response.json();
+
+if(data.success){
+
+typeEffect(data.answer);
+
+}else{
+
+typeEffect(
+data.answer ||
+"Unable to get AI response."
+);
+
+}
+
+}catch(error){
+
+console.error(error);
+
+typeEffect(
+"Connection error. Make sure server.js is running."
+);
+
+}
+
+}
+
+function pauseTyping(){
+
+isPaused = true;
+
+speechSynthesis.pause();
+
+}
+
+function pauseTyping(){
+
+isPaused = true;
+
+speechSynthesis.pause();
+
+}
+
+function resumeTyping(){
+
+isPaused = false;
+
+speechSynthesis.resume();
+
+}
+
+function showAllText(){
+
+clearInterval(typingInterval);
+
+document.getElementById("output").innerHTML =
+currentText;
+
+speechSynthesis.cancel();
+
+}
+
+
+
+function toggleVoice(){
+
+voiceEnabled = !voiceEnabled;
+
+localStorage.setItem(
+"voiceEnabled",
+voiceEnabled
+);
+
+const btn =
+document.getElementById("voiceBtn");
+
+if(btn){
+
+btn.innerHTML =
+voiceEnabled
+? "🔊 Voice ON"
+: "🔇 Voice OFF";
+
+}
+
+if(!voiceEnabled){
+
+speechSynthesis.cancel();
+
+}
+
+}
+
+function speak(text){
+
+if(!voiceEnabled) return;
+
+speechSynthesis.cancel();
+
+const speech =
+new SpeechSynthesisUtterance(text);
+
+speech.rate = 1;
+speech.pitch = 1;
+
+speechSynthesis.speak(speech);
+
+}
+
+function goBack(){
+
+window.location.href = "index.html";
+
+}
+
+window.onload = ()=>{
+
+showCompanyPrep();
+
+const btn =
+document.getElementById("voiceBtn");
+
+if(btn){
+
+btn.innerHTML =
+voiceEnabled
+? "🔊 Voice ON"
+: "🔇 Voice OFF";
+
+}
+
+};
+
+</script> 
+<footer class="footer">
+    <a href="terms.html">Terms & Conditions</a>
+</footer>
+</body>
+</html>

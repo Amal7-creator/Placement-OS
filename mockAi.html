@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI Mock Interview Pro</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+
+  font-family:'Poppins',sans-serif;
+
+  background:
+  radial-gradient(circle at top left,#0f172a,transparent 40%),
+  radial-gradient(circle at bottom right,#1e1b4b,transparent 40%),
+  #050814;
+
+  color:white;
+  min-height:100vh;
+}
+
+.glass{
+
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(14px);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  border-radius:20px;
+}
+
+.btn{
+
+  transition:.2s;
+  cursor:pointer;
+
+}
+
+.btn:hover{
+
+  transform:scale(1.03);
+
+}
+
+.badge{
+
+  background:rgba(255,255,255,0.06);
+
+  border:1px solid rgba(255,255,255,.1);
+
+  padding:12px;
+
+  border-radius:12px;
+
+  margin-top:10px;
+
+}
+
+.progressOuter{
+
+  width:100%;
+  height:12px;
+
+  background:#1f2937;
+
+  border-radius:999px;
+
+  overflow:hidden;
+
+}
+
+.progressInner{
+
+  width:0%;
+
+  height:100%;
+
+  background:#3b82f6;
+
+  transition:.4s;
+
+}
+
+.hidden{
+  display:none;
+}
+
+textarea{
+  color:white;
+}
+
+</style>
+
+</head>
+
+<body class="p-6 min-h-screen flex flex-col">
+  <button
+  onclick="goBack()"
+  class="fixed left-6 top-6 bg-gray-700 px-4 py-2 rounded-lg btn z-50"
+>
+  🔙 Back
+</button>
+
+  <div class="flex-grow"></div>
+
+<!-- HEADER -->
+
+<div class="glass p-6 text-center relative">
+
+<h1 class="text-4xl font-bold">
+🎤 AI Mock Interview Pro
+</h1>
+
+<p class="text-gray-400 mt-3">
+Unlimited AI Interview Practice
+</p>
+
+</div>
+<!-- ROLE SELECTION -->
+
+<div class="glass p-6 mt-6">
+
+<h2 class="text-xl font-bold mb-4">
+Select Interview Role
+</h2>
+
+<select
+id="role"
+class="w-full p-3 rounded-lg bg-black/40 border border-white/10">
+
+<option>Frontend Developer</option>
+<option>Backend Developer</option>
+<option>Full Stack Developer</option>
+<option>React Developer</option>
+<option>Angular Developer</option>
+<option>Vue Developer</option>
+<option>Flutter Developer</option>
+<option>Android Developer</option>
+<option>iOS Developer</option>
+<option>Java Developer</option>
+<option>Python Developer</option>
+<option>Node.js Developer</option>
+<option>Spring Boot Developer</option>
+<option>.NET Developer</option>
+<option>Data Analyst</option>
+<option>Data Scientist</option>
+<option>Machine Learning Engineer</option>
+<option>AI Engineer</option>
+<option>DevOps Engineer</option>
+<option>Cloud Engineer</option>
+<option>Cyber Security Analyst</option>
+<option>QA Engineer</option>
+<option>HR Round</option>
+
+</select>
+
+<div class="mt-4"></div>
+
+<!div class="badge">
+<!⏱ 2 Minute Timer
+<!/div>
+
+<!div class="badge">
+<!🎙 Voice Answers
+<!/div>
+
+<!div class="badge">
+<!📄 PDF Report
+<!/div>
+
+</div>
+
+<button
+onclick="startInterview()"
+class="mt-5 w-full bg-blue-600 py-3 rounded-xl font-semibold btn">
+
+🚀 Start Interview
+
+</button>
+
+<div
+id="loading"
+class="hidden text-center mt-4 text-gray-300">
+
+Generating Questions...
+
+</div>
+
+</div>
+
+<!-- HISTORY -->
+
+<div class="glass p-6 mt-6">
+
+<div class="flex justify-between items-center">
+
+<h2 class="text-xl font-bold">
+📚 Interview History
+</h2>
+
+<button
+onclick="loadHistory()"
+class="bg-purple-600 px-4 py-2 rounded-lg btn">
+
+Refresh
+
+</button>
+
+</div>
+
+<div
+id="historyBox"
+class="mt-4">
+
+No interviews yet
+
+</div>
+
+</div>
+
+<!-- INTERVIEW SECTION -->
+
+<div
+id="interviewBox"
+class="glass p-6 mt-6 hidden">
+
+<div class="flex justify-between items-center">
+
+<h2 class="text-xl font-bold">
+
+🤖 Interview Session
+
+</h2>
+
+<div
+id="questionCount">
+
+Question 1
+
+</div>
+
+</div>
+<!-- PROGRESS BAR -->
+
+<div class="mt-4">
+
+<div class="progressOuter">
+
+<div
+id="progressBar"
+class="progressInner">
+</div>
+
+</div>
+
+</div>
+
+<!-- TIMER -->
+
+<div class="grid md:grid-cols-2 gap-4 mt-4">
+
+<div class="badge">
+
+⏱ Time Remaining:
+<span id="timer">
+120
+</span>s
+
+</div>
+
+<div class="badge">
+
+📈 Current Score:
+<span id="liveScore">
+0
+</span>
+
+</div>
+
+</div>
+
+<!-- QUESTION -->
+
+<div class="badge mt-4">
+
+<p class="text-gray-300">
+Current Question
+</p>
+
+<p
+id="question"
+class="font-semibold mt-2">
+
+Waiting...
+
+</p>
+
+</div>
+
+<!-- ANSWER -->
+
+<textarea
+id="answer"
+rows="7"
+class="w-full mt-4 p-4 rounded-xl bg-black/40 border border-white/10"
+placeholder="Type your answer here...">
+</textarea>
+
+<!-- ACTION BUTTONS -->
+
+<div class="grid md:grid-cols-4 gap-3 mt-4">
+
+<button
+onclick="startVoiceInput()"
+class="bg-purple-600 py-3 rounded-xl btn">
+
+🎙 Voice
+
+</button>
+
+<button
+onclick="toggleTimer()"
+class="bg-yellow-600 py-3 rounded-xl btn">
+
+⏯ Pause
+
+</button>
+
+<button
+onclick="skipQuestion()"
+class="bg-orange-600 py-3 rounded-xl btn">
+
+⏭ Skip
+
+</button>
+
+<button
+onclick="submitAnswer()"
+class="bg-green-600 py-3 rounded-xl btn">
+
+✅ Submit
+
+</button>
+
+</div>
+
+<!-- FEEDBACK -->
+
+<div
+id="feedbackBox"
+class="hidden mt-4">
+
+<div class="badge">
+
+<h3 class="font-bold">
+AI Feedback
+</h3>
+
+<p
+id="feedbackText"
+class="mt-2 text-gray-300">
+</p>
+
+</div>
+
+</div>
+
+<!-- SCORING -->
+
+<div
+id="scoreBreakdown"
+class="hidden mt-4">
+
+<div class="badge">
+
+<h3 class="font-bold">
+📊 Detailed Scoring
+</h3>
+
+<div
+id="scoreContent"
+class="mt-3">
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- RESULT SECTION -->
+
+<div
+id="resultBox"
+class="glass p-6 mt-6 hidden">
+
+<h2 class="text-2xl font-bold">
+
+📄 Final Interview Report
+
+</h2>
+<div
+id="report"
+class="mt-4">
+</div>
+
+<div class="grid md:grid-cols-2 gap-4 mt-4">
+
+<button
+onclick="downloadPDF()"
+class="bg-red-600 py-3 rounded-xl btn">
+
+📄 Download PDF
+
+</button>
+
+<button
+onclick="restartInterview()"
+class="bg-blue-600 py-3 rounded-xl btn">
+
+🔁 Restart
+
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+// =========================
+// GLOBAL VARIABLES
+// =========================
+
+let role = "";
+
+let currentQuestion = "";
+
+let questions = [];
+
+let answers = [];
+
+let scores = [];
+
+let feedbacks = [];
+
+let timer = 120;
+
+let timerInterval = null;
+
+let paused = false;
+
+let interviewActive = false;
+
+// =========================
+// API HELPER
+// =========================
+
+async function apiCall(
+endpoint,
+payload
+){
+
+  try{
+
+    const res = await fetch(
+
+      `http://localhost:3000${endpoint}`,
+
+      {
+        method:"POST",
+
+        headers:{
+          "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify(payload)
+      }
+
+    );
+
+    return await res.json();
+
+  }catch(error){
+
+    console.error(error);
+
+    return {
+      success:false,
+      error:error.message
+    };
+
+  }
+
+}
+
+// =========================
+// START INTERVIEW
+// =========================
+
+async function startInterview(){
+
+  role =
+    document.getElementById(
+      "role"
+    ).value;
+
+  interviewActive = true;
+
+  questions = [];
+  answers = [];
+  scores = [];
+  feedbacks = [];
+
+  document
+    .getElementById("loading")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("interviewBox")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("resultBox")
+    .classList.add("hidden");
+
+  await loadNextQuestion();
+
+  document
+    .getElementById("loading")
+    .classList.add("hidden");
+
+}
+// =========================
+// LOAD NEXT QUESTION
+// =========================
+
+async function loadNextQuestion(){
+
+  const result =
+    await apiCall(
+      "/next-question",
+      {
+        role,
+        previousQuestions:
+          questions,
+        previousAnswers:
+          answers
+      }
+    );
+
+  if(!result.success){
+
+    alert(
+      "Unable to load question"
+    );
+
+    return;
+  }
+
+  currentQuestion =
+    result.question;
+
+  questions.push(
+    currentQuestion
+  );
+
+  document
+    .getElementById(
+      "question"
+    )
+    .innerText =
+      currentQuestion;
+
+  document
+    .getElementById(
+      "questionCount"
+    )
+    .innerText =
+      `Question ${questions.length}`;
+
+  document
+    .getElementById(
+      "answer"
+    )
+    .value = "";
+
+  updateProgressBar();
+
+  startTimer();
+
+}
+
+// =========================
+// TIMER
+// =========================
+
+function startTimer(){
+
+  clearInterval(
+    timerInterval
+  );
+
+  timer = 120;
+
+  document
+    .getElementById(
+      "timer"
+    )
+    .innerText =
+      timer;
+
+  timerInterval =
+    setInterval(()=>{
+
+      if(paused){
+        return;
+      }
+
+      timer--;
+
+      document
+        .getElementById(
+          "timer"
+        )
+        .innerText =
+          timer;
+
+      if(timer <= 0){
+
+        clearInterval(
+          timerInterval
+        );
+
+        submitAnswer();
+
+      }
+
+    },1000);
+
+}
+
+function toggleTimer(){
+
+  paused = !paused;
+
+}
+
+function skipQuestion(){
+
+  answers.push(
+    "Skipped"
+  );
+
+  loadNextQuestion();
+
+}
+
+// =========================
+// PROGRESS BAR
+// =========================
+
+function updateProgressBar(){
+
+  let width =
+    Math.min(
+      questions.length * 5,
+      100
+    );
+
+  document
+    .getElementById(
+      "progressBar"
+    )
+    .style.width =
+      width + "%";
+
+}
+// =========================
+// VOICE INPUT
+// =========================
+
+function startVoiceInput(){
+
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+  if(!SpeechRecognition){
+
+    alert(
+      "Speech Recognition not supported"
+    );
+
+    return;
+  }
+
+  const recognition =
+    new SpeechRecognition();
+
+  recognition.lang = "en-US";
+
+  recognition.interimResults = false;
+
+  recognition.start();
+
+  recognition.onresult = function(event){
+
+    const transcript =
+      event.results[0][0].transcript;
+
+    document
+      .getElementById(
+        "answer"
+      )
+      .value +=
+      " " + transcript;
+
+  };
+
+  recognition.onerror =
+    function(error){
+
+      console.error(error);
+
+    };
+
+}
+
+// =========================
+// SUBMIT ANSWER
+// =========================
+
+async function submitAnswer(){
+
+  clearInterval(
+    timerInterval
+  );
+
+  const answer =
+    document
+      .getElementById(
+        "answer"
+      )
+      .value
+      .trim();
+
+  if(
+    !answer &&
+    answers.length > 0
+  ){
+
+    return;
+
+  }
+
+  answers.push(answer);
+
+  const result =
+    await apiCall(
+      "/score-answer",
+      {
+        role,
+        question:
+          currentQuestion,
+        answer
+      }
+    );
+
+  let scoreData = {
+
+    technical:5,
+    communication:5,
+    problemSolving:5,
+    confidence:5,
+    overall:5,
+    feedback:
+      "No feedback"
+
+  };
+
+  try{
+
+    const cleaned =
+      result.result
+      .replace(
+        /```json/g,
+        ""
+      )
+      .replace(
+        /```/g,
+        ""
+      )
+      .trim();
+
+    scoreData =
+      JSON.parse(
+        cleaned
+      );
+
+  }catch(error){
+
+    console.log(error);
+
+  }
+
+  scores.push(scoreData);
+
+  feedbacks.push(
+    scoreData.feedback
+  );
+    document
+    .getElementById(
+      "feedbackBox"
+    )
+    .classList.remove(
+      "hidden"
+    );
+
+  document
+    .getElementById(
+      "feedbackText"
+    )
+    .innerText =
+      scoreData.feedback;
+
+  document
+    .getElementById(
+      "scoreBreakdown"
+    )
+    .classList.remove(
+      "hidden"
+    );
+
+  document
+    .getElementById(
+      "scoreContent"
+    )
+    .innerHTML = `
+
+    <div class="grid md:grid-cols-2 gap-3">
+
+      <div class="badge">
+      Technical:
+      ${scoreData.technical}/10
+      </div>
+
+      <div class="badge">
+      Communication:
+      ${scoreData.communication}/10
+      </div>
+
+      <div class="badge">
+      Problem Solving:
+      ${scoreData.problemSolving}/10
+      </div>
+
+      <div class="badge">
+      Confidence:
+      ${scoreData.confidence}/10
+      </div>
+
+      <div class="badge">
+      Overall:
+      ${scoreData.overall}/10
+      </div>
+
+    </div>
+
+  `;
+
+  updateLiveScore();
+
+  setTimeout(()=>{
+
+    loadNextQuestion();
+
+  },2000);
+
+}
+
+// =========================
+// LIVE SCORE
+// =========================
+
+function updateLiveScore(){
+
+  if(scores.length === 0){
+
+    document
+      .getElementById(
+        "liveScore"
+      )
+      .innerText = "0";
+
+    return;
+
+  }
+
+  const total =
+    scores.reduce(
+      (sum,item)=>
+      sum +
+      (item.overall || 0),
+      0
+    );
+
+  const avg =
+    (
+      total /
+      scores.length
+    ).toFixed(1);
+
+  document
+    .getElementById(
+      "liveScore"
+    )
+    .innerText =
+      avg;
+
+}
+
+// =========================
+// FINISH INTERVIEW
+// =========================
+
+async function finishInterview(){
+
+  interviewActive = false;
+
+  clearInterval(
+    timerInterval
+  );
+
+  document
+    .getElementById(
+      "interviewBox"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+  document
+    .getElementById(
+      "resultBox"
+    )
+    .classList.remove(
+      "hidden"
+    );
+      const reportResult =
+    await apiCall(
+      "/interview-report",
+      {
+        role,
+        scores,
+        feedbacks
+      }
+    );
+
+  let totalScore =
+    scores.reduce(
+      (sum,item)=>
+        sum +
+        (item.overall || 0),
+      0
+    );
+
+  let finalScore =
+    Math.round(
+      (
+        totalScore /
+        (scores.length * 10)
+      ) * 100
+    );
+
+  let performance =
+    finalScore >= 85
+      ? "Excellent 🚀"
+      : finalScore >= 70
+      ? "Very Good 👍"
+      : finalScore >= 50
+      ? "Good 🙂"
+      : "Needs Improvement 📚";
+
+  let reportHTML = `
+
+    <div class="badge">
+
+      <h3 class="text-xl font-bold">
+      ${role}
+      </h3>
+
+      <p class="mt-2">
+      Final Score:
+      <b>${finalScore}/100</b>
+      </p>
+
+      <p class="mt-2">
+      Performance:
+      <b>${performance}</b>
+      </p>
+
+      <p class="mt-2">
+      Questions Answered:
+      <b>${questions.length}</b>
+      </p>
+
+    </div>
+
+    <div class="badge">
+
+      <h3 class="font-bold">
+      AI Career Feedback
+      </h3>
+
+      <pre class="whitespace-pre-wrap mt-3">
+${reportResult.report || ""}
+      </pre>
+
+    </div>
+
+  `;
+
+  document
+    .getElementById(
+      "report"
+    )
+    .innerHTML =
+      reportHTML;
+
+  saveHistory(
+    finalScore
+  );
+
+}
+
+// =========================
+// SAVE HISTORY
+// =========================
+
+function saveHistory(
+score
+){
+
+  let history =
+    JSON.parse(
+      localStorage.getItem(
+        "interviewHistory"
+      ) || "[]"
+    );
+
+  history.unshift({
+
+    date:
+      new Date()
+      .toLocaleString(),
+
+    role,
+
+    score,
+
+    questions:
+      questions.length
+
+  });
+
+  localStorage.setItem(
+    "interviewHistory",
+    JSON.stringify(history)
+  );
+
+}
+// =========================
+// LOAD HISTORY
+// =========================
+
+function loadHistory(){
+
+  const history =
+    JSON.parse(
+      localStorage.getItem(
+        "interviewHistory"
+      ) || "[]"
+    );
+
+  const container =
+    document.getElementById(
+      "historyBox"
+    );
+
+  if(
+    history.length === 0
+  ){
+
+    container.innerHTML =
+      "No interviews yet";
+
+    return;
+  }
+
+  let html = "";
+
+  history.forEach(item=>{
+
+    html += `
+
+    <div class="badge">
+
+      <div>
+        📅 ${item.date}
+      </div>
+
+      <div>
+        💼 ${item.role}
+      </div>
+
+      <div>
+        📊 ${item.score}/100
+      </div>
+
+      <div>
+        ❓ ${item.questions}
+        Questions
+      </div>
+
+    </div>
+
+    `;
+
+  });
+
+  container.innerHTML =
+    html;
+
+}
+
+// =========================
+// PDF EXPORT
+// =========================
+
+function downloadPDF(){
+
+  const {
+    jsPDF
+  } = window.jspdf;
+
+  const pdf =
+    new jsPDF();
+
+  const content =
+    document
+      .getElementById(
+        "report"
+      )
+      .innerText;
+
+  const lines =
+    pdf.splitTextToSize(
+      content,
+      180
+    );
+
+  pdf.text(
+    lines,
+    10,
+    15
+  );
+
+  pdf.save(
+    "AI_Mock_Interview_Report.pdf"
+  );
+
+}
+
+// =========================
+// RESTART
+// =========================
+
+function restartInterview(){
+
+  role = "";
+
+  currentQuestion = "";
+
+  questions = [];
+
+  answers = [];
+
+  scores = [];
+
+  feedbacks = [];
+
+  paused = false;
+
+  interviewActive = false;
+
+  clearInterval(
+    timerInterval
+  );
+
+  document
+    .getElementById(
+      "resultBox"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+  document
+    .getElementById(
+      "interviewBox"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+  document
+    .getElementById(
+      "feedbackBox"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+  document
+    .getElementById(
+      "scoreBreakdown"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+  document
+    .getElementById(
+      "liveScore"
+    )
+    .innerText = "0";
+
+  document
+    .getElementById(
+      "progressBar"
+    )
+    .style.width = "0%";
+
+}
+
+
+
+// =========================
+// AUTO FINISH OPTION
+// =========================
+
+// Change this number
+// if you want longer sessions
+
+const MAX_QUESTIONS = Infinity;
+
+// Override loadNextQuestion
+
+const originalLoadNextQuestion =
+  loadNextQuestion;
+
+loadNextQuestion =
+async function(){
+
+  if(
+    questions.length >=
+    MAX_QUESTIONS
+  ){
+
+    finishInterview();
+
+    return;
+  }
+
+  await originalLoadNextQuestion();
+
+};
+
+// =========================
+// INIT
+// =========================
+
+loadHistory();
+
+function goBack() {
+  window.location.href = "index.html";
+}
+
+</script>
+
+
+</script>
+
+</div>
+
+<footer class="mt-10 py-6 pb-0 text-center text-gray-400 border-t border-gray-700">
+   <a href="terms.html" class="hover:text-white">
+        Terms & Conditions
+    </a>
+
+
+</body>
+</html>

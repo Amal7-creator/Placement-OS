@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Placement OS | Learn Hub</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:
+linear-gradient(rgba(2,6,23,.95),rgba(2,6,23,.97)),
+url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070');
+background-size:cover;
+background-attachment:fixed;
+color:white;
+}
+
+.glass{
+background:rgba(15,23,42,.7);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,.08);
+}
+
+.gradient{
+background:linear-gradient(135deg,#2563eb,#06b6d4);
+}
+
+.topic{
+padding:18px;
+border-radius:16px;
+background:#0f172a;
+cursor:pointer;
+transition:.3s;
+}
+
+.topic:hover{
+background:#172554;
+transform:translateY(-5px);
+}
+
+.viewerModal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.85);
+display:none;
+justify-content:center;
+align-items:center;
+padding:20px;
+z-index:999;
+}
+
+.viewerBox{
+width:100%;
+max-width:900px;
+max-height:90vh;
+overflow-y:auto;
+padding:30px;
+border-radius:25px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="glass sticky top-0 z-50 px-8 py-5 flex justify-between items-center">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 gradient rounded-2xl flex items-center justify-center text-2xl">🧠</div>
+<div>
+<h1 class="text-3xl font-bold">Placement OS</h1>
+<p class="text-gray-400">Learn + Exam Mode System</p>
+</div>
+</div>
+
+<a href="index.html" class="gradient px-6 py-3 rounded-xl font-semibold">
+← Back
+</a>
+</div>
+
+<!-- HERO -->
+<section class="p-8">
+<div class="glass rounded-[35px] p-10">
+<h2 class="text-5xl font-bold">Aptitude & Reasoning Platform 📘</h2>
+<p class="text-gray-400 mt-5 text-lg">
+Study mode + exam mode with full topic coverage.
+</p>
+</div>
+</section>
+
+<!-- ===================== TOPICS ===================== -->
+
+<section class="p-8">
+<h2 class="text-4xl font-bold mb-8">📊 Aptitude</h2>
+<div class="grid md:grid-cols-3 gap-4">
+
+<div class="topic" onclick="openTopic('number_system')">Number System</div>
+<div class="topic" onclick="openTopic('percentages')">Percentages</div>
+<div class="topic" onclick="openTopic('profit_&_loss')">Profit & Loss</div>
+<div class="topic" onclick="openTopic('ratio_&_proportion')">Ratio & Proportion</div>
+<div class="topic" onclick="openTopic('time_&_work')">Time & Work</div>
+<div class="topic" onclick="openTopic('probability')">Probability</div>
+<div class="topic" onclick="openTopic('permutation_&_combination')">Permutation & Combination</div>
+<div class="topic" onclick="openTopic('pipes_&_cisterns')">Pipes & Cisterns</div>
+<div class="topic" onclick="openTopic('averages')">Averages</div>
+<div class="topic" onclick="openTopic('simple_interest')">Simple Interest</div>
+<div class="topic" onclick="openTopic('compound_interest')">Compound Interest</div>
+
+</div>
+</section>
+
+<section class="p-8">
+<h2 class="text-4xl font-bold mb-8">🧩 Logical Reasoning</h2>
+<div class="grid md:grid-cols-3 gap-4">
+
+<div class="topic" onclick="openTopic('coding-decoding')">Coding-Decoding</div>
+<div class="topic" onclick="openTopic('blood_relations')">Blood Relations</div>
+<div class="topic" onclick="openTopic('seating_arrangement')">Seating Arrangement</div>
+<div class="topic" onclick="openTopic('syllogism')">Syllogism</div>
+<div class="topic" onclick="openTopic('puzzle_questions')">Puzzle Questions</div>
+<div class="topic" onclick="openTopic('direction_sense')">Direction Sense</div>
+<div class="topic" onclick="openTopic('calendar_problems')">Calendar Problems</div>
+<div class="topic" onclick="openTopic('clocks')">Clocks</div>
+<div class="topic" onclick="openTopic('series')">Series Completion</div>
+
+</div>
+</section>
+
+<section class="p-8">
+<h2 class="text-4xl font-bold mb-8">📖 Verbal Ability</h2>
+<div class="grid md:grid-cols-3 gap-4">
+
+<div class="topic" onclick="openTopic('grammar')">Grammar</div>
+<div class="topic" onclick="openTopic('synonyms_&_antonyms')">Synonyms & Antonyms</div>
+<div class="topic" onclick="openTopic('sentence_correction')">Sentence Correction</div>
+<div class="topic" onclick="openTopic('error_detection')">Error Detection</div>
+<div class="topic" onclick="openTopic('vocabulary')">Vocabulary</div>
+<div class="topic" onclick="openTopic('reading_comprehension')">Reading Comprehension</div>
+<div class="topic" onclick="openTopic('para_jumbles')">Para Jumbles</div>
+<div class="topic" onclick="openTopic('active_&_passive_voice')">Active & Passive Voice</div>
+<div class="topic" onclick="openTopic('tenses')">Tenses</div>
+<div class="topic" onclick="openTopic('idioms_&_phrases')">Idioms & Phrases</div>
+<div class="topic" onclick="openTopic('one_word_substitution')">One Word Substitution</div>
+<div class="topic" onclick="openTopic('sentence_completion')">Sentence Completion</div>
+
+</div>
+</section>
+
+<!-- ===================== VIEWER ===================== -->
+
+<div class="viewerModal" id="viewerModal">
+<div class="glass viewerBox">
+
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-2xl font-bold" id="topicTitle">Topic</h2>
+<button onclick="closeViewer()" class="bg-red-600 px-4 py-2 rounded-xl">Close</button>
+</div>
+
+<div id="content"></div>
+
+</div>
+</div>
+
+<!-- ===================== SCRIPT ===================== -->
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, getDocs } 
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyAyOMZBRao9kSfPwwIDGbKJMYlYz4xv1Vs",
+  authDomain: "placement-os-b85cd.firebaseapp.com",
+    projectId: "placement-os-b85cd",
+
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+/* STATE */
+let questions = [];
+let index = 0;
+let examMode = true;
+let showAnswer = false;
+
+/* OPEN TOPIC */
+window.openTopic = async function(topic){
+
+document.getElementById("viewerModal").style.display = "flex";
+document.getElementById("topicTitle").innerText = topic;
+
+const snapshot = await getDocs(collection(db,"questions"));
+
+questions = [];
+index = 0;
+
+snapshot.forEach(doc=>{
+const q = doc.data();
+if(q.topic === topic){
+questions.push(q);
+}
+});
+
+if(questions.length === 0){
+document.getElementById("content").innerHTML = "<p>No questions found.</p>";
+return;
+}
+
+renderQuestion();
+};
+
+/* RENDER */
+function renderQuestion(){
+
+const q = questions[index];
+
+document.getElementById("content").innerHTML = `
+<div class="p-5 rounded-2xl bg-slate-900 border border-slate-700">
+
+<div class="flex justify-between items-center mb-4">
+
+<h2 class="text-xl font-bold">
+Question ${index + 1} / ${questions.length}
+</h2>
+
+<div class="flex gap-3 items-center">
+
+<button onclick="toggleExamMode()" class="bg-purple-600 px-3 py-1 rounded-xl text-sm">
+${examMode ? "Exam Mode ON" : "Exam Mode OFF"}
+</button>
+
+<input type="number" min="1" max="${questions.length}"
+class="text-black px-2 py-1 rounded"
+placeholder="Go"
+onchange="jumpToQuestion(this.value)">
+</div>
+</div>
+
+<p class="text-xl font-bold mb-3">
+Q${index + 1}: ${q.question}
+</p>
+
+<div class="text-gray-300 space-y-1">
+<p>🅐 ${q.options?.[0] || ""}</p>
+<p>🅑 ${q.options?.[1] || ""}</p>
+<p>🅒 ${q.options?.[2] || ""}</p>
+<p>🅓 ${q.options?.[3] || ""}</p>
+</div>
+
+<div class="mt-5">
+
+${examMode && !showAnswer ? `
+<button onclick="revealAnswer()" class="bg-blue-600 px-4 py-2 rounded-xl">
+👁️ Show Answer
+</button>
+` : `
+<p class="mt-4 text-green-400 font-semibold">
+✔ Answer: ${q.answer}
+</p>
+
+<p class="mt-2 text-blue-300 leading-relaxed">
+💡 Explanation:<br>
+${q.explanation ? q.explanation.replace(/\n/g, "<br>") : "No explanation added"}
+</p>
+`}
+</div>
+
+<div class="flex justify-between mt-6">
+
+<button onclick="prevQuestion()" class="bg-slate-700 px-5 py-2 rounded-xl">
+⬅ Previous
+</button>
+
+<button onclick="nextQuestion()" class="gradient px-5 py-2 rounded-xl">
+Next ➡
+</button>
+
+</div>
+
+</div>
+`;
+}
+
+/* NAV */
+window.nextQuestion = function(){
+if(index < questions.length - 1){
+index++;
+showAnswer = false;
+renderQuestion();
+}
+};
+
+window.prevQuestion = function(){
+if(index > 0){
+index--;
+showAnswer = false;
+renderQuestion();
+}
+};
+
+/* JUMP */
+window.jumpToQuestion = function(val){
+let num = parseInt(val);
+if(num >= 1 && num <= questions.length){
+index = num - 1;
+showAnswer = false;
+renderQuestion();
+}
+};
+
+/* EXAM MODE */
+window.toggleExamMode = function(){
+examMode = !examMode;
+showAnswer = false;
+renderQuestion();
+};
+
+window.revealAnswer = function(){
+showAnswer = true;
+renderQuestion();
+};
+
+/* CLOSE */
+window.closeViewer = function(){
+document.getElementById("viewerModal").style.display = "none";
+document.getElementById("content").innerHTML = "";
+questions = [];
+index = 0;
+showAnswer = false;
+};
+
+</script>
+
+</footer>
+
+<footer class="mt-10 py-6 text-center text-gray-400 border-t border-gray-700">
+
+
+<a href="terms.html" class="hover:text-white">
+Terms & Conditions
+</a> 
+
+
+</a>
+
+</footer> 
+
+</body>
+</html>

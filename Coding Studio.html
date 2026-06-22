@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Coding Studio Pro</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      background: radial-gradient(circle at top, #0f172a, #020617);
+    }
+
+    .glass {
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    pre::-webkit-scrollbar,
+    textarea::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    pre::-webkit-scrollbar-thumb,
+    textarea::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 10px;
+    }
+
+    .btn {
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.03);
+    }
+  </style>
+</head>
+
+<body class="text-white">
+
+<!-- HEADER -->
+<div class="flex justify-between items-center px-6 py-5">
+
+  <button onclick="goBack()"
+    class="absolute right-7 top-6 bg-white/10 px-4 py-2 rounded-lg text-sm hover:bg-white/20 btn">
+    🔙 Back
+  </button>
+
+  <div class="text-center">
+    <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 text-transparent bg-clip-text">
+      ⚡ AI Coding Studio Pro
+    </h1>
+    <p class="text-gray-400 text-sm">Practice • Build • Crack Interviews</p>
+  </div>
+
+  <div></div>
+
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="max-w-[97%] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 pb-10">
+
+  <!-- QUESTION PANEL -->
+  <div class="glass rounded-2xl p-6 h-[155vh] flex flex-col">
+
+    <h2 class="text-xl font-semibold mb-4">📌 Problem Generator</h2>
+
+    <div class="grid grid-cols-3 gap-3 mb-4">
+      <select id="language" class="p-2 text-black rounded">
+        <option>JavaScript</option>
+        <option>Python</option>
+        <option>Java</option>
+        <option>C++</option>
+        <option>SQL</option>
+        <option>Go</option>
+        <option>Rust</option>
+      </select>
+
+      <select id="difficulty" class="p-2 text-black rounded">
+        <option>Easy</option>
+        <option>Medium</option>
+        <option>Hard</option>
+      </select>
+
+      <select id="topic" class="p-2 text-black rounded">
+        <option>Arrays</option>
+        <option>Strings</option>
+        <option>DP</option>
+        <option>Graphs</option>
+        <option>Trees</option>
+        <option>Sorting</option>
+      </select>
+    </div>
+
+    <button onclick="generateQuestion()"
+      class="btn bg-blue-600 hover:bg-blue-700 p-3 rounded font-semibold mb-3">
+      🚀 Generate Question
+    </button>
+
+    <pre id="output"
+      class="flex-1 bg-black/60 p-5 rounded-xl overflow-auto text-sm border border-white/10">
+Waiting for question...
+    </pre>
+
+  </div>
+
+  <!-- CODE EDITOR (BIG FULL IDE STYLE) -->
+  <div class="glass rounded-2xl p-6 h-[157vh] flex flex-col">
+
+    <div class="flex justify-between items-center mb-3">
+      <h2 class="text-xl font-semibold">💻 Code Editor</h2>
+      <span class="text-gray-400 text-sm" id="counter">0 chars</span>
+    </div>
+
+    <!-- BIGGER EDITOR -->
+    <textarea id="codeInput"
+      oninput="updateCounter()"
+      class="flex-1 w-full p-6 bg-black/60 text-green-300 font-mono rounded-xl border border-white/10 resize-none text-sm leading-relaxed"
+      placeholder="// Write your code here..."></textarea>
+
+    <!-- ACTION BUTTONS -->
+    <div class="grid grid-cols-4 gap-3 mt-3">
+
+      <button onclick="insertTemplate()"
+        class="btn bg-blue-600 hover:bg-blue-700 p-2 rounded">
+        Template
+      </button>
+
+        <button onclick="runCode()"
+    class="btn bg-green-600 hover:bg-green-700 p-2 rounded">
+    ▶ Run Code
+  </button>
+
+      <button onclick="clearCode()"
+        class="btn bg-blue-500 hover:bg-blue-600 p-2 rounded">
+        Clear
+      </button>
+
+      <button onclick="scrollToAI()"
+        class="btn bg-cyan-600 hover:bg-cyan-700 p-2 rounded">
+        AI ↓
+      </button>
+
+    </div>
+
+    <button onclick="submitCode()"
+      class="btn mt-3 bg-blue-700 hover:bg-blue-800 p-3 rounded font-semibold">
+      🧠 Submit Code for AI Review
+    </button>
+
+
+    <div class="mt-4">
+  <h3 class="font-semibold mb-2">🖥 Program Output</h3>
+
+  <pre id="codeOutput"
+    class="h-36 bg-black/60 p-5 rounded-xl overflow-auto text-sm border border-white/10 text-green-300">
+Program output will appear here...
+  </pre>
+</div>
+
+    <pre id="aiOutput"
+      class="mt-4 h-56 bg-black/60 p-5 rounded-xl overflow-auto text-sm border border-white/10">
+AI feedback will appear here...
+    </pre>
+
+  </div>
+
+</div>
+
+<script>
+
+
+async function runCode() {
+
+  const output = document.getElementById("codeOutput");
+
+  output.innerText = "⏳ Running Code...";
+
+  try {
+
+    const res = await fetch("http://localhost:3000/run-code", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        code: codeInput.value,
+        language: language.value
+      })
+    });
+
+    const data = await res.json();
+
+    output.innerText =
+      data.output ||
+      data.stdout ||
+      data.result ||
+      data.error ||
+      "No output";
+
+  } catch (err) {
+
+    output.innerText =
+      "❌ Error running code.\n\n" + err.message;
+
+  }
+}
+
+  // BACK BUTTON
+  function goBack() {
+    window.location.href = "index.html";
+  }
+
+  // COUNTER
+  function updateCounter() {
+    document.getElementById("counter").innerText =
+      document.getElementById("codeInput").value.length + " chars";
+  }
+
+  // TEMPLATE
+  function insertTemplate() {
+    document.getElementById("codeInput").value =
+`function solve() {
+  // write your logic here
+}`;
+    updateCounter();
+  }
+
+  // CLEAR
+  function clearCode() {
+    document.getElementById("codeInput").value = "";
+    updateCounter();
+  }
+
+  // SCROLL TO AI
+  function scrollToAI() {
+    document.getElementById("aiOutput").scrollIntoView({ behavior: "smooth" });
+  }
+
+  // GENERATE QUESTION
+  async function generateQuestion() {
+    const output = document.getElementById("output");
+    output.innerText = "⏳ Generating...";
+
+    const res = await fetch("http://localhost:3000/generate-question", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        language: language.value,
+        difficulty: difficulty.value,
+        topic: topic.value
+      })
+    });
+
+    const text = await res.text();
+    const data = JSON.parse(text);
+    output.innerText = data.question;
+  }
+
+  // SUBMIT CODE
+  async function submitCode() {
+    const aiOutput = document.getElementById("aiOutput");
+    aiOutput.innerText = "⏳ Analyzing...";
+
+    const res = await fetch("http://localhost:3000/analyze-code", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        code: codeInput.value,
+        language: language.value
+      })
+    });
+
+    const text = await res.text();
+    const data = JSON.parse(text);
+
+    aiOutput.innerText = data.result;
+    scrollToAI();
+  }
+
+</script>
+
+
+</footer>
+
+<footer class="mt-10 py-6 text-center text-gray-400 border-t border-gray-700">
+
+
+<a href="terms.html" class="hover:text-white">
+Terms & Conditions
+</a> 
+
+
+</a>
+
+</footer>
+
+</body>
+</html>

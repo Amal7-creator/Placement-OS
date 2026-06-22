@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Placement OS</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+  font-family: 'Poppins', sans-serif;
+}
+
+body{
+  background:
+  radial-gradient(circle at top left, rgba(59,130,246,0.15), transparent 30%),
+  radial-gradient(circle at bottom right, rgba(168,85,247,0.12), transparent 30%),
+  #060816;
+
+  color:white;
+  overflow-x:hidden;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+.glass{
+  background: rgba(17,24,39,0.65);
+  backdrop-filter: blur(14px);
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+.main-btn{
+  min-width:220px;
+  text-align:center;
+  padding:14px 24px;
+  border-radius:16px;
+  font-weight:600;
+  transition:0.3s ease;
+  display:inline-block;
+}
+
+.main-btn:hover{
+  transform:translateY(-4px);
+  box-shadow:0 10px 25px rgba(59,130,246,0.35);
+}
+
+.card{
+  transition:0.35s ease;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  border-color:#3b82f6;
+  box-shadow:0 0 30px rgba(59,130,246,0.18);
+}
+
+.glow{
+  box-shadow:0 0 50px rgba(59,130,246,0.30);
+}
+
+.dashboard-btn{
+  background:linear-gradient(to right,#2563eb,#06b6d4);
+  padding:10px 18px;
+  border-radius:14px;
+  font-weight:600;
+  transition:0.3s ease;
+}
+
+.dashboard-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(59,130,246,0.4);
+}
+
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#3b82f6;
+  border-radius:20px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header class="sticky top-0 z-50 backdrop-blur-xl bg-black/20 border-b border-white/5">
+
+  <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
+
+    <!-- LOGO -->
+    <div class="flex items-center gap-3">
+
+      <div class="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center text-2xl glow">
+        🚀
+      </div>
+
+      <div>
+        <h1 class="text-2xl font-bold">Placement OS</h1>
+        <p class="text-xs text-gray-400">
+          AI Placement Preparation Platform
+        </p>
+      </div>
+
+    </div>
+
+    <!-- RIGHT SIDE BUTTONS -->
+    <div class="flex items-center gap-4">
+
+      <!-- USER DASHBOARD BUTTON -->
+      <a href="details.html" class="dashboard-btn">
+        👤 User Dashboard
+      </a>
+
+      <!-- LOGOUT -->
+      <a href="intro.html"
+         class="bg-blue-600 hover:bg-blue-700 transition px-5 py-2 rounded-xl font-medium">
+        Logout
+      </a>
+
+    </div>
+
+  </div>
+</header>
+
+<!-- HERO SECTION -->
+<section class="relative px-6 py-28 text-center overflow-hidden">
+
+  <!-- GLOW EFFECTS -->
+  <div class="absolute top-0 left-0 w-72 h-72 bg-blue-500 rounded-full blur-[120px] opacity-20"></div>
+
+  <div class="absolute bottom-0 right-0 w-72 h-72 bg-purple-500 rounded-full blur-[120px] opacity-20"></div>
+
+  <div class="relative z-10 max-w-5xl mx-auto">
+
+    <!-- TOP TAG -->
+    <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm mb-8">
+      ⚡ AI Powered Placement Guidance
+    </div>
+
+    <!-- MAIN TITLE -->
+    <h1 class="text-5xl md:text-7xl font-extrabold leading-tight">
+      Crack Your College <br>
+
+      <span class="bg-gradient-to-r from-blue-400 to-cyan-300 text-transparent bg-clip-text">
+        Placements Smarter
+      </span>
+    </h1>
+
+    <!-- DESCRIPTION -->
+    <p class="mt-8 text-lg text-gray-300 max-w-3xl mx-auto">
+      Your all-in-one AI placement preparation platform with company roadmaps,
+      DSA practice, resume analysis, aptitude preparation, and mock interview guidance.
+    </p>
+
+    <!-- HERO BUTTONS -->
+    <div class="mt-12 flex flex-wrap justify-center gap-5">
+
+      <a href="prepration.html"
+         class="main-btn bg-blue-600 hover:bg-blue-700 glow">
+        🚀 Start Preparation
+      </a>
+
+      <a href="DSA.html"
+         class="main-btn bg-[#111827] border border-gray-700 hover:border-blue-500">
+        📚 DSA Algorithm
+      </a>
+
+
+    </div>
+
+  </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section class="px-6 py-24 bg-black/20">
+
+  <!-- SECTION TITLE -->
+  <div class="max-w-6xl mx-auto text-center">
+
+    <h2 class="text-4xl font-bold">
+      Everything You Need In One Platform
+    </h2>
+
+    <p class="mt-4 text-gray-400">
+      Smart AI tools to make your placement preparation easy.
+    </p>
+
+  </div>
+
+  <!-- FEATURE CARDS -->
+  <div class="mt-14 grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+
+    <!-- AI DOUBT SOLVER -->
+    <a href="AI.html"
+       class="glass rounded-3xl p-8 card block hover:border-blue-500">
+
+      <div class="text-4xl">🤖</div>
+
+      <h3 class="text-2xl font-semibold mt-5">
+        AI Doubt Solver
+      </h3>
+
+      <p class="text-gray-400 mt-4">
+        Solve DSA, aptitude, and interview doubts instantly.
+      </p>
+
+    </a>
+
+    <!-- RESUME ANALYZER -->
+    <a href="resume.html"
+       class="glass rounded-3xl p-8 card block hover:border-blue-500">
+
+      <div class="text-4xl">📝</div>
+
+      <h3 class="text-2xl font-semibold mt-5">
+        Resume Analyzer
+      </h3>
+
+      <p class="text-gray-400 mt-4">
+        Get AI-powered resume scoring and improvement tips.
+      </p>
+
+    </a>
+
+    <!-- ROADMAP -->
+    <a href="Coding Studio.html"
+       class="glass rounded-3xl p-8 card block hover:border-blue-500">
+
+      <div class="text-4xl">💻</div>
+
+      <h3 class="text-2xl font-semibold mt-5">
+        Coding Studio
+      </h3>
+
+      <p class="text-gray-400 mt-4">
+        Follow structured company-wise preparation roadmaps.
+      </p>
+
+    </a>
+
+    <!-- MOCK INTERVIEW -->
+    <a href="mockAi.html"
+       class="glass rounded-3xl p-8 card block hover:border-blue-500">
+
+      <div class="text-4xl">🎤</div>
+
+      <h3 class="text-2xl font-semibold mt-5">
+        Mock Interviews
+      </h3>
+
+      <p class="text-gray-400 mt-4">
+        Practice technical and HR interviews with AI.
+      </p>
+
+    </a>
+
+    <!-- USER DASHBOARD CARD -->
+    <!a href="dashboard.html"
+       class="glass rounded-3xl p-8 card block hover:border-blue-500">
+
+      <!div class="text-4xl"><!👤<!/div>
+
+      <!h3 class="text-2xl font-semibold mt-5">
+       <! User Dashboard
+      <!/h3>
+
+      <!p class="text-gray-400 mt-4">
+        <!Track your progress, completed tasks, and preparation analytics.
+      <!/p>
+
+    <!/a>
+
+    <!-- DAILY PRACTICE -->
+    <!a href="dailypractice.html"
+       <!class="glass rounded-3xl p-8 card block hover:border-blue-500">
+
+      <!div class="text-4xl"><!📚<!/div>
+
+      <!h3 class="text-2xl font-semibold mt-5">
+      <!  Daily Practice
+      <!/h3>
+
+      <!p class="text-gray-400 mt-4">
+       <! Improve aptitude, coding, and interview skills every day.
+      <!/p>
+
+    <!/a>
+
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-white/5 py-10 text-center">
+
+  <p class="text-gray-500">
+    Built with ❤️ by a CSE Student • Placement OS © 2026
+  </p>
+
+</footer>
+
+<footer class="mt-10 py-6 text-center text-gray-400 border-t border-gray-700">
+
+<a href="privacy.html" class="hover:text-white">
+Privacy Policy
+</a> |
+
+<a href="terms.html" class="hover:text-white">
+Terms & Conditions
+</a> |
+
+<a href="refund.html" class="hover:text-white">
+Refund Policy
+</a> |
+
+<a href="pricing.html" class="hover:text-white">
+pricing
+</a> |
+
+<a href="contact.html" class="hover:text-white">
+Contact Us
+</a>
+
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Executive Profile | Placement OS</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background:
+  radial-gradient(circle at top left, rgba(59,130,246,0.15), transparent 30%),
+  radial-gradient(circle at bottom right, rgba(168,85,247,0.12), transparent 30%),
+  #060816;
+
+  color:white;
+  overflow-x:hidden;
+}
+
+.glass{
+  background:rgba(17,24,39,0.72);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+.input-box{
+  width:100%;
+  padding:14px 18px;
+  border-radius:14px;
+  background:#0f172a;
+  border:1px solid rgba(255,255,255,0.08);
+  color:white;
+  outline:none;
+  transition:0.3s;
+}
+
+.input-box:focus{
+  border-color:#3b82f6;
+  box-shadow:0 0 0 4px rgba(59,130,246,0.15);
+}
+
+.section-title{
+  font-size:30px;
+  font-weight:700;
+  margin-bottom:30px;
+}
+
+.save-btn{
+  background:linear-gradient(to right,#2563eb,#06b6d4);
+  padding:15px 35px;
+  border-radius:18px;
+  font-weight:600;
+  transition:0.3s;
+}
+
+.save-btn:hover{
+  transform:translateY(-4px);
+  box-shadow:0 10px 30px rgba(59,130,246,0.4);
+}
+
+.profile-image{
+  width:160px;
+  height:160px;
+  border-radius:50%;
+  border:4px solid #3b82f6;
+  object-fit:cover;
+  box-shadow:0 0 40px rgba(59,130,246,0.4);
+}
+
+.upload-btn{
+  background:linear-gradient(to right,#2563eb,#06b6d4);
+  padding:10px 20px;
+  border-radius:14px;
+  cursor:pointer;
+  transition:0.3s;
+  display:inline-block;
+  margin-top:18px;
+  font-weight:600;
+}
+
+.upload-btn:hover{
+  transform:scale(1.05);
+}
+
+.stat-card{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:20px;
+  padding:24px;
+  transition:0.3s;
+}
+
+.stat-card:hover{
+  border-color:#3b82f6;
+  transform:translateY(-5px);
+}
+
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#3b82f6;
+  border-radius:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header class="sticky top-0 z-50 backdrop-blur-xl bg-black/20 border-b border-white/5">
+
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+    <div class="flex items-center gap-3">
+
+      <div class="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center text-2xl">
+        👤
+      </div>
+
+      <div>
+        <h1 class="text-2xl font-bold">Placement OS</h1>
+        <p class="text-sm text-gray-400">
+          Executive User Dashboard
+        </p>
+      </div>
+
+    </div>
+
+    <a href="index.html"
+       class="bg-blue-600 hover:bg-blue-700 px-5 py-2 rounded-xl transition">
+
+      Home
+
+    </a>
+
+  </div>
+
+</header>
+
+<!-- MAIN -->
+<div class="max-w-7xl mx-auto px-6 py-12">
+
+  <!-- EXECUTIVE PROFILE HEADER -->
+  <div class="glass rounded-[32px] p-8 mb-10 relative overflow-hidden">
+
+    <div class="absolute top-0 right-0 w-72 h-72 bg-blue-500/10 blur-[120px] rounded-full"></div>
+
+    <div class="relative z-10 flex flex-col lg:flex-row items-center gap-10">
+
+      <!-- LEFT -->
+      <div class="text-center">
+
+        <img id="profilePreview"
+             src="DP.png"
+             class="profile-image">
+
+        <br>
+
+        <label for="profileUpload" class="upload-btn">
+          📷 Change Photo
+        </label>
+
+        <input type="file"
+               id="profileUpload"
+               accept="image/*"
+               hidden>
+
+        <div class="mt-6 bg-green-500/10 border border-green-500/20 px-5 py-2 rounded-full text-green-300 text-sm">
+
+          ● Premium Active Member
+
+        </div>
+
+      </div>
+
+      <!-- RIGHT -->
+      <div class="flex-1 text-center lg:text-left">
+
+        <h1 id="displayName" class="text-5xl font-extrabold">
+        Your Name
+        </h1>
+
+        <p id="displayTitle" class="mt-3 text-xl text-blue-300">
+        Add your title
+        </p>
+
+        <p id="displayBio" class="mt-5 text-gray-400 max-w-3xl leading-8">
+        Add your bio
+        </p>
+
+        <!-- STATS -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-5 mt-10">
+
+          <div class="stat-card">
+          <h2 id="displayProjects" class="text-3xl font-bold text-blue-400">
+          0
+         </h2>
+
+        <p class="text-gray-400 mt-2 text-sm">
+        Projects
+        </p>
+        </div>
+
+          <div class="stat-card">
+          <h2 id="displayCGPA" class="text-3xl font-bold text-cyan-400">
+          0
+         </h2>
+
+        <p class="text-gray-400 mt-2 text-sm">
+        CGPA
+        </p>
+        </div>
+
+          <div class="stat-card">
+            <h2 id="displayCertificates" class="text-3xl font-bold text-purple-400">
+             0
+            </h2>
+            <p class="text-gray-400 mt-2 text-sm">
+              Certifications
+            </p>
+          </div>
+
+          <div class="stat-card">
+            <h2 id="displayMembership" class="text-3xl font-bold text-green-400">
+             Trial
+             </h2>
+
+            <p class="text-gray-400 mt-2 text-sm">
+              Membership
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- PROFILE FORM -->
+  <div class="glass rounded-3xl p-8">
+
+    <!-- PERSONAL -->
+    <h2 class="section-title">
+      👤 Personal Information
+    </h2>
+
+    <div class="grid md:grid-cols-2 gap-6">
+
+      <div>
+        <label class="block mb-2">Full Name</label>
+        <input id="fullname" type="text" class="input-box">
+      </div>
+
+      <div>
+        <label class="block mb-2">Email Address</label>
+        <input id="email" type="email" class="input-box">
+      </div>
+
+      <div>
+        <label class="block mb-2">Phone Number</label>
+        <input id="phone" type="tel" class="input-box">
+      </div>
+
+      <div>
+        <label class="block mb-2">Date of Birth</label>
+        <input id="dob" type="date" class="input-box">
+      </div>
+
+      <div>
+        <label class="block mb-2">Gender</label>
+
+        <select id="gender" class="input-box">
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+
+      </div>
+
+      <div>
+        <label class="block mb-2">Address</label>
+        <input id="address" type="text" class="input-box">
+      </div>
+
+    </div>
+
+    <!-- EDUCATION -->
+    <h2 class="section-title mt-16">
+      🎓 Education Details
+    </h2>
+
+    <div class="grid md:grid-cols-2 gap-6">
+
+      <div>
+        <label class="block mb-2">College Name</label>
+        <input id="college" type="text" class="input-box">
+      </div>
+
+      <div>
+        <label class="block mb-2">Qualification</label>
+
+        <select id="qualification" class="input-box">
+          <option>B.Tech</option>
+          <option>MCA</option>
+          <option>BCA</option>
+          <option>M.Tech</option>
+        </select>
+
+      </div>
+
+      <div>
+        <label class="block mb-2">Branch</label>
+        <input id="branch" type="text" class="input-box">
+      </div>
+
+      <div>
+        <label class="block mb-2">CGPA</label>
+        <input id="cgpa" type="text" class="input-box">
+      </div>
+
+    </div>
+
+   <!-- EXPERIENCE -->
+<h2 class="section-title mt-16">
+  💼 Experience & Skills
+</h2>
+
+<div class="grid md:grid-cols-2 gap-6">
+
+  <div>
+    <label class="block mb-2">Professional Title</label>
+    <input id="title" type="text" class="input-box"
+           placeholder="Full Stack Developer">
+  </div>
+
+  <div>
+    <label class="block mb-2">Certificates Count</label>
+    <input id="certificates" type="number"
+           class="input-box"
+           placeholder="15">
+  </div>
+
+  <div class="md:col-span-2">
+    <label class="block mb-2">Short Bio</label>
+    <textarea id="bio"
+              class="input-box h-32"
+              placeholder="Tell something about yourself"></textarea>
+  </div>
+
+  <div>
+    <label class="block mb-2">Skills</label>
+    <textarea id="skills" class="input-box h-32"></textarea>
+  </div>
+
+  <div>
+    <label class="block mb-2">Projects</label>
+    <textarea id="projects" class="input-box h-32"></textarea>
+  </div>
+
+</div>
+    <!-- PAYMENT -->
+    <h2 class="section-title mt-16">
+      💎 Payment Status
+    </h2>
+
+    <div class="grid md:grid-cols-2 gap-6">
+
+      <div>
+        <label class="block mb-2">Subscription Plan</label>
+
+        <select id="plan" class="input-box">
+          <option>Free</option>
+          <option>Premium</option>
+          <option>Pro</option>
+        </select>
+
+      </div>
+
+      <div>
+        <label class="block mb-2">Payment Status</label>
+
+        <select id="payment" class="input-box">
+          <option>Paid</option>
+          <option>Pending</option>
+          <option>Expired</option>
+        </select>
+
+      </div>
+
+    </div>
+
+    <!-- SAVE BUTTON -->
+    <div class="mt-16 text-center">
+
+      <button id="saveProfile" class="save-btn">
+        💾 Save Profile
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- FIREBASE -->
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+// FIREBASE CONFIG
+const firebaseConfig = {
+  apiKey: "AIzaSyAyOMZBRao9kSfPwwIDGbKJMYlYz4xv1Vs",
+  authDomain: "placement-os-b85cd.firebaseapp.com",
+    projectId: "placement-os-b85cd",
+  storageBucket: "placement-os-b85cd.firebasestorage.app",
+  messagingSenderId: "731940605034",
+  appId: "1:1077851757638:web:cb1784a31b0c8f0c757e47"
+};
+
+// INITIALIZE FIREBASE
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+let userId = null;
+
+// CHECK LOGIN STATUS
+onAuthStateChanged(auth, async (user) => {
+
+  if (user) {
+
+    userId = user.uid;
+
+    // Auto-fill email from Firebase Auth
+    document.getElementById("email").value = user.email || "";
+
+    await loadProfile();
+
+  } else {
+
+    window.location.href = "login.html";
+
+  }
+
+});
+
+// PROFILE IMAGE
+const profileUpload = document.getElementById("profileUpload");
+const profilePreview = document.getElementById("profilePreview");
+
+profileUpload.addEventListener("change", function () {
+
+  const file = this.files[0];
+
+  if (file) {
+
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+
+      profilePreview.src = e.target.result;
+
+    };
+
+    reader.readAsDataURL(file);
+
+  }
+
+});
+
+// SAVE PROFILE
+document.getElementById("saveProfile")
+.addEventListener("click", async () => {
+
+  if (!userId) {
+
+    alert("User not logged in");
+    return;
+
+  }
+
+  const profileData = {
+
+    fullname: document.getElementById("fullname").value,
+    email: document.getElementById("email").value,
+    phone: document.getElementById("phone").value,
+    dob: document.getElementById("dob").value,
+    gender: document.getElementById("gender").value,
+    address: document.getElementById("address").value,
+    college: document.getElementById("college").value,
+    qualification: document.getElementById("qualification").value,
+    branch: document.getElementById("branch").value,
+    cgpa: document.getElementById("cgpa").value,
+    skills: document.getElementById("skills").value,
+    projects: document.getElementById("projects").value,
+    title: document.getElementById("title").value,
+    bio: document.getElementById("bio").value,
+    certificates: document.getElementById("certificates").value,
+    plan: document.getElementById("plan").value,
+    payment: document.getElementById("payment").value,
+    profileImage: profilePreview.src,
+    updatedAt: new Date().toISOString()
+
+  };
+
+  try {
+    console.log("Current User:", auth.currentUser);
+    console.log("User ID:", userId);
+
+    await setDoc(
+      doc(db, "profiles", userId),
+      profileData
+    );
+    await loadProfile();
+    document.getElementById("displayName").textContent =
+  profileData.fullname || "Your Name";
+
+document.getElementById("displayTitle").textContent =
+  profileData.title || "Add your title";
+
+document.getElementById("displayBio").textContent =
+  profileData.bio || "Add your bio";
+
+document.getElementById("displayCGPA").textContent =
+  profileData.cgpa || "0";
+
+document.getElementById("displayProjects").textContent =
+  profileData.projects
+    ? profileData.projects.split(",").length + "+"
+    : "0";
+
+document.getElementById("displayCertificates").textContent =
+  profileData.certificates || "0";
+
+document.getElementById("displayMembership").textContent =
+  profileData.plan || "Free";
+
+    alert("Profile Saved Successfully ✅");
+
+  } catch (error) {
+  console.error(error);
+  alert(error.message);
+
+
+  }
+
+});
+
+// LOAD PROFILE
+async function loadProfile() {
+
+  if (!userId) return;
+
+  try {
+
+    const docRef = doc(db, "profiles", userId);
+
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+
+      const data = docSnap.data();
+
+      document.getElementById("displayName").textContent =
+  data.fullname || "Your Name";
+
+document.getElementById("displayTitle").textContent =
+  data.title || "Add your title";
+
+document.getElementById("displayBio").textContent =
+  data.bio || "Add your bio";
+
+document.getElementById("displayCGPA").textContent =
+  data.cgpa || "0";
+
+document.getElementById("displayCertificates").textContent =
+  data.certificates || "0";
+
+document.getElementById("displayMembership").textContent =
+  data.plan || "Free";
+
+document.getElementById("displayProjects").textContent =
+  data.projects
+    ? data.projects.split(",").length + "+"
+    : "0";
+
+    document.getElementById("title").value =
+  data.title || "";
+
+document.getElementById("bio").value =
+  data.bio || "";
+
+document.getElementById("certificates").value =
+  data.certificates || "";
+
+      document.getElementById("email").value =
+      data.email || auth.currentUser?.email || "";
+
+      document.getElementById("fullname").value =
+        data.fullname || "";
+
+      document.getElementById("phone").value =
+        data.phone || "";
+
+      document.getElementById("dob").value =
+        data.dob || "";
+
+      document.getElementById("gender").value =
+        data.gender || "Male";
+
+      document.getElementById("address").value =
+        data.address || "";
+
+      document.getElementById("college").value =
+        data.college || "";
+
+      document.getElementById("qualification").value =
+        data.qualification || "B.Tech";
+
+      document.getElementById("branch").value =
+        data.branch || "";
+
+      document.getElementById("cgpa").value =
+        data.cgpa || "";
+
+      document.getElementById("skills").value =
+        data.skills || "";
+
+      document.getElementById("projects").value =
+        data.projects || "";
+
+      document.getElementById("plan").value =
+        data.plan || "Free";
+
+      document.getElementById("payment").value =
+        data.payment || "Pending";
+
+
+      if (data.profileImage) {
+
+        profilePreview.src = data.profileImage;
+
+      }
+
+    }
+
+  } catch (error) {
+
+    console.error("Load Profile Error:", error);
+
+  }
+
+}
+
+</script>
+</body>
+</html>

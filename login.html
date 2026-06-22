@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Placement OS - Login</title>
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Google Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<style>
+
+*{
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background:
+  linear-gradient(rgba(5,8,22,0.84), rgba(5,8,22,0.90)),
+  url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=2070&auto=format&fit=crop');
+
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+
+  min-height:100vh;
+  overflow:auto;
+  position:relative;
+}
+
+/* Glow Effects */
+.glow1{
+  position:absolute;
+  width:350px;
+  height:350px;
+  background:#2563eb;
+  border-radius:50%;
+  filter:blur(120px);
+  opacity:0.18;
+  top:-100px;
+  left:-100px;
+}
+
+.glow2{
+  position:absolute;
+  width:350px;
+  height:350px;
+  background:#8b5cf6;
+  border-radius:50%;
+  filter:blur(120px);
+  opacity:0.18;
+  bottom:-100px;
+  right:-100px;
+}
+
+/* Glass Card */
+.glass{
+  background:rgba(17,24,39,0.78);
+  backdrop-filter:blur(18px);
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 10px 40px rgba(0,0,0,0.45);
+}
+
+/* Input */
+.input-box{
+  width:100%;
+  background:#0f172a;
+  border:1px solid #1e293b;
+  padding:16px 16px 16px 50px;
+  border-radius:16px;
+  color:white;
+  outline:none;
+  transition:0.3s ease;
+}
+
+.input-box:focus{
+  border-color:#3b82f6;
+  box-shadow:0 0 25px rgba(59,130,246,0.28);
+}
+
+/* Input Icon */
+.input-wrapper{
+  position:relative;
+}
+
+.input-icon{
+  position:absolute;
+  left:18px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#60a5fa;
+  font-size:15px;
+}
+
+/* Buttons */
+.main-btn{
+  width:100%;
+  padding:16px;
+  border-radius:18px;
+  font-weight:600;
+  transition:0.3s ease;
+}
+
+.main-btn:hover{
+  transform:translateY(-3px);
+}
+
+/* Login Button */
+.login-btn{
+  background:linear-gradient(to right,#2563eb,#06b6d4);
+}
+
+.login-btn:hover{
+  box-shadow:0 10px 30px rgba(37,99,235,0.45);
+}
+
+/* Create Button */
+.create-btn{
+  background:#111827;
+  border:1px solid #374151;
+}
+
+.create-btn:hover{
+  border-color:#3b82f6;
+  box-shadow:0 10px 30px rgba(59,130,246,0.20);
+}
+
+/* Social Buttons */
+.social-btn{
+  background:#0f172a;
+  border:1px solid #374151;
+  transition:0.3s ease;
+  min-height:60px;
+}
+
+.social-btn:hover{
+  border-color:#3b82f6;
+  transform:translateY(-2px);
+  box-shadow:0 10px 25px rgba(59,130,246,0.18);
+}
+
+/* Divider */
+.divider{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#9ca3af;
+}
+
+.divider div{
+  flex:1;
+  height:1px;
+  background:#374151;
+}
+
+/* Animation */
+.card-animation{
+  animation:float 1s ease;
+}
+
+@keyframes float{
+  from{
+    opacity:0;
+    transform:translateY(30px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#3b82f6;
+  border-radius:20px;
+}
+
+</style>
+</head>
+
+<body class="flex items-center justify-center px-6 py-10">
+
+<!-- GLOW -->
+<div class="glow1"></div>
+<div class="glow2"></div>
+
+<!-- LOGIN CARD -->
+<div class="glass card-animation relative z-10 w-full max-w-md rounded-[32px] p-8">
+
+  <!-- LOGO -->
+  <div class="text-center">
+
+    <div class="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-r from-blue-600 to-cyan-400 flex items-center justify-center text-4xl shadow-lg shadow-blue-500/30">
+      <i class="fa-solid fa-code"></i>
+    </div>
+
+    <h1 class="text-4xl font-bold text-white mt-6">
+      Welcome Back
+    </h1>
+
+    <p class="text-gray-400 mt-3 leading-relaxed">
+      Login to continue your placement preparation journey.
+    </p>
+
+  </div>
+
+  <!-- FORM -->
+  <form class="mt-10 space-y-5" onsubmit="return false;">
+
+    <!-- EMAIL -->
+    <div>
+
+      <label class="text-sm text-gray-300 block mb-2">
+        Email Address
+      </label>
+
+      <div class="input-wrapper">
+
+        <i class="fa-solid fa-envelope input-icon"></i>
+
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter your email"
+          class="input-box"
+          required
+        />
+
+      </div>
+
+    </div>
+
+    <!-- PASSWORD -->
+    <div>
+
+      <label class="text-sm text-gray-300 block mb-2">
+        Password
+      </label>
+
+      <div class="input-wrapper">
+
+        <i class="fa-solid fa-lock input-icon"></i>
+
+        <input
+          type="password"
+          id="password"
+          placeholder="Enter your password"
+          class="input-box"
+          required
+        />
+
+      </div>
+
+    </div>
+
+    <!-- OPTIONS -->
+    <div class="flex justify-between items-center text-sm">
+
+      <!label class="flex items-center gap-2 text-gray-400">
+        <!input type="checkbox" class="accent-blue-500">
+        <!Remember me
+      <!/label>
+
+   <a
+  href="#"
+  id="forgotPasswordBtn"
+  class="text-blue-400 hover:text-blue-300 transition">
+  Forgot Password?
+</a>
+    </div>
+
+    <!-- LOGIN BUTTON -->
+    <button
+      type="button"
+      id="loginBtn"
+      class="main-btn login-btn text-white flex items-center justify-center gap-3">
+
+      <i class="fa-solid fa-right-to-bracket"></i>
+      Login to Placement OS
+
+    </button>
+
+    <!-- CREATE ACCOUNT -->
+    <a href="create.html" class="block">
+
+      <button
+      type="button"
+      class="main-btn create-btn text-white mt-4 flex items-center justify-center gap-3">
+
+        <i class="fa-solid fa-user-plus"></i>
+        Create an Account
+
+      </button>
+
+    </a>
+
+  </form>
+
+  <!-- DIVIDER -->
+  <div class="divider mt-8">
+    <div></div>
+    OR
+    <div></div>
+  </div>
+
+  <!-- SOCIAL LOGIN -->
+  <div class="grid grid-cols 5 gap-4 mt-8">
+
+   <button
+  id="googleLoginBtn"
+  class="social-btn rounded-2xl text-white font-medium flex items-center justify-center gap-3">
+
+  <i class="fa-brands fa-google text-xl text-red-400"></i>
+  <span>Google</span>
+
+</button>
+
+    <!button class="social-btn rounded-2xl text-white font-medium flex items-center justify-center gap-3">
+      <!i class="fa-brands fa-github text-xl text-white"></i>
+      <!span><!GitHub</span>
+    <!/button>
+
+  </div>
+
+  <!-- FOOTER -->
+  <p class="text-center text-gray-400 mt-8 text-sm leading-relaxed">
+    Built for CSE Students • Placement OS © 2026
+  </p>
+
+</div>
+
+<!-- FIREBASE LOGIN SCRIPT -->
+<script type="module">
+  import { auth } from "./firebase.js";
+
+/*
+----------------------------------------------------
+MAKE SURE YOU HAVE firebase.js FILE
+----------------------------------------------------
+
+Example firebase.js
+
+import { initializeApp } from
+"https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+
+import { getAuth } from
+"https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyAyOMZBRao9kSfPwwIDGbKJMYlYz4xv1Vs",
+  authDomain: "placement-os-b85cd.firebaseapp.com",
+    projectId: "placement-os-b85cd",
+  storageBucket: "placement-os-b85cd.firebasestorage.app",
+  messagingSenderId: "731940605034",
+  appId: "1:1077851757638:web:cb1784a31b0c8f0c757e47"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+export const auth = getAuth(app);
+
+----------------------------------------------------
+*/
+
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  sendPasswordResetEmail
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+const googleProvider =
+  new GoogleAuthProvider();
+
+document
+.getElementById("loginBtn")
+.addEventListener("click", async () => {
+
+  const email =
+  document.getElementById("email").value.trim();
+
+  const password =
+  document.getElementById("password").value;
+
+  if(!email || !password){
+    alert("Please enter email and password");
+    return;
+  }
+
+  try {
+
+    await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    alert("Login Successful");
+
+    // Change destination page if needed
+    window.location.href = "index.html";
+
+  }
+  catch(error){
+        alert("❌ Invalid email or password");
+
+    //alert(error.message);
+    //console.error(error);
+    
+
+  }
+
+});
+
+
+document
+document
+.getElementById("googleLoginBtn")
+.addEventListener("click", async () => {
+
+  try {
+
+    console.log("Opening Google Login...");
+
+    const result = await signInWithPopup(
+      auth,
+      googleProvider
+    );
+
+    const user = result.user;
+
+    alert(
+      "Logged in as: " +
+      user.email
+    );
+
+    window.location.href = "index.html";
+
+  } catch (error) {
+
+    if (error.code === "auth/popup-closed-by-user") {
+
+      console.log("Google sign-in cancelled by user");
+
+      return;
+
+    }
+
+    console.error(error);
+
+    alert(error.message);
+
+  }
+
+});
+
+//forgot password
+document
+.getElementById("forgotPasswordBtn")
+.addEventListener("click", async (e) => {
+
+  e.preventDefault();
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  if (!email) {
+
+    alert(
+      "Please enter your email address first."
+    );
+
+    return;
+  }
+
+  try {
+
+    await sendPasswordResetEmail(
+      auth,
+      email
+    );
+
+    alert(
+      "Password reset email sent successfully. Check your inbox."
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(error.message);
+
+  }
+
+});
+
+
+
+</script>
+
+</body>
+</html>

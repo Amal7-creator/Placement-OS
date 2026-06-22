@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Placement OS - DSA Practice</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{font-family:Poppins,sans-serif}
+body{background:#020617;color:white}
+.glass{background:rgba(15,23,42,.85);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.08)}
+textarea{background:#0f172a;color:white}
+
+.back-btn{
+    position:fixed;
+    top:20px;
+    right:20px;
+
+    z-index:1000;
+
+    background:linear-gradient(135deg,#3b82f6,#06b6d4);
+    color:white;
+
+    padding:12px 22px;
+    border:none;
+    border-radius:12px;
+
+    font-weight:600;
+    cursor:pointer;
+
+    box-shadow:0 10px 25px rgba(59,130,246,.3);
+
+    transition:all .3s ease;
+}
+
+.back-btn:hover{
+    transform:translateY(-2px);
+}
+
+.custom-select{
+    background:rgba(15,23,42,.95);
+    color:white;
+    border:1px solid rgba(255,255,255,.12);
+
+    padding:12px 18px;
+    border-radius:14px;
+
+    font-weight:600;
+    font-size:15px;
+
+    outline:none;
+    cursor:pointer;
+
+    transition:.3s;
+    min-width:180px;
+
+    box-shadow:0 4px 20px rgba(0,0,0,.25);
+}
+
+.custom-select:hover{
+    border-color:#3b82f6;
+    transform:translateY(-2px);
+}
+
+.action-btn{
+    padding:12px 22px;
+    border:none;
+    border-radius:14px;
+
+    font-weight:700;
+    font-size:15px;
+
+    cursor:pointer;
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    transition:.3s ease;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+}
+
+.next-btn{
+    background:linear-gradient(135deg,#2563eb,#06b6d4);
+    color:white;
+}
+
+.next-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 15px 35px rgba(37,99,235,.4);
+}
+
+.prev-btn{
+    background:linear-gradient(135deg,#475569,#64748b);
+    color:white;
+}
+
+.prev-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 15px 35px rgba(100,116,139,.4);
+}
+
+.editor-btn{
+    padding:12px 24px;
+    border:none;
+    border-radius:14px;
+
+    font-size:15px;
+    font-weight:700;
+
+    cursor:pointer;
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    transition:all .3s ease;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+}
+
+.editor-btn:hover{
+    transform:translateY(-3px);
+}
+
+.run-btn{
+    background:linear-gradient(135deg,#16a34a,#22c55e);
+    color:white;
+}
+
+.run-btn:hover{
+    box-shadow:0 15px 35px rgba(34,197,94,.35);
+}
+
+.analyze-btn{
+    background:linear-gradient(135deg,#0891b2,#06b6d4);
+    color:white;
+}
+
+.analyze-btn:hover{
+    box-shadow:0 15px 35px rgba(6,182,212,.35);
+}
+
+.clear-btn{
+    background:linear-gradient(135deg,#dc2626,#ef4444);
+    color:white;
+}
+
+.clear-btn:hover{
+    box-shadow:0 15px 35px rgba(239,68,68,.35);
+}
+
+
+</style>
+</head>
+<body class="p-4">
+  <button onclick="goBack()" class="back-btn">
+    🔙 Back
+</button>
+
+<div class="max-w-7xl mx-auto">
+<div class="glass rounded-3xl p-6 mb-4">
+<h1 class="text-4xl font-bold">🚀 Placement OS DSA Practice</h1>
+<p class="text-gray-400">Unlimited AI Questions + AI Mentor + Code Workspace</p>
+</div>
+
+<div class="glass rounded-3xl p-5 w-full">
+<div class="w-full">
+<div class="glass rounded-3xl p-5">
+
+  
+<div class="flex flex-wrap items-center gap-3 mb-6">
+
+<select id="language" class="custom-select">
+    <option>☕ Java</option>
+    <option>🐍 Python</option>
+    <option>⚡ C++</option>
+    <option>🔧 C</option>
+</select>
+
+<select id="company" class="custom-select">
+    <option value="General">📚 General DSA</option>
+
+    <!-- PASTE ALL YOUR EXISTING COMPANY OPTIONS HERE -->
+
+    <optgroup label="Product Companies">
+<option>Google</option>
+<option>Amazon</option>
+<option>Microsoft</option>
+<option>Meta</option>
+<option>Apple</option>
+<option>Netflix</option>
+<option>Adobe</option>
+<option>Salesforce</option>
+<option>Uber</option>
+<option>Airbnb</option>
+<option>LinkedIn</option>
+<option>Oracle</option>
+<option>VMware</option>
+<option>Nvidia</option>
+<option>Intel</option>
+<option>Qualcomm</option>
+<option>Samsung</option>
+<option>PayPal</option>
+<option>Cisco</option>
+</optgroup>
+
+<optgroup label="Indian Product Companies">
+<option>Flipkart</option>
+<option>PhonePe</option>
+<option>Swiggy</option>
+<option>Zomato</option>
+<option>Razorpay</option>
+<option>Freshworks</option>
+<option>Zoho</option>
+<option>CRED</option>
+<option>Groww</option>
+<option>Meesho</option>
+<option>ShareChat</option>
+<option>Dream11</option>
+<option>Myntra</option>
+<option>Ola</option>
+
+</optgroup>
+
+<optgroup label="Service Companies">
+<option>TCS</option>
+<option>Infosys</option>
+<option>Wipro</option>
+<option>HCL</option>
+<option>Tech Mahindra</option>
+<option>Accenture</option>
+<option>Cognizant</option>
+<option>Capgemini</option>
+<option>Deloitte</option>
+<option>IBM</option>
+<option>Hexaware</option>
+
+</optgroup>
+
+</select>
+
+<button onclick="loadQuestion()" class="action-btn next-btn">
+    🚀 Next Question
+</button>
+
+<button onclick="prevQuestion()" class="action-btn prev-btn">
+    ⬅ Previous
+</button>
+
+</div>
+</optgroup>
+</select>
+<h2 id="title" class="text-2xl font-bold mb-3">Question</h2>
+<div id="question" class="whitespace-pre-wrap min-h-[250px]">Loading...</div>
+</div>
+
+<div class="glass rounded-3xl p-5 mt-4">
+<h3 class="text-xl font-bold mb-3">💻 Code Editor</h3>
+<textarea id="code" class="w-full h-64 p-93 rounded"></textarea>
+
+
+
+<div class="flex flex-wrap gap-3 mt-4">
+
+<button onclick="runCode()" class="editor-btn run-btn">
+    ▶️ Run Code
+</button>
+
+<button onclick="analyzeCode()" class="editor-btn analyze-btn">
+    🧠 Analyze Code
+</button>
+
+<button onclick="clearCode()" class="editor-btn clear-btn">
+    🗑️ Clear
+</button>
+
+</div>
+
+
+
+<div id="output" class="mt-4 whitespace-pre-wrap"></div>
+</div>
+</div>
+
+<div>
+<div class="glass rounded-3xl p-5">
+<h3 class="text-xl font-bold">🤖 AI Mentor</h3>
+<div id="mentor" class="mt-3 text-gray-300">
+Generate a question to begin.
+</div>
+<button onclick="showHint()" class="bg-yellow-600 px-3 py-2 rounded mt-3">Hint</button>
+<button onclick="showApproach()" class="bg-purple-600 px-3 py-2 rounded mt-3">Approach</button>
+</div>
+
+<div class="glass rounded-3xl p-5 mt-4">
+<h3 class="text-xl font-bold">📊 Progress</h3>
+<p>Questions Seen: <span id="count">0</span></p>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+const API_URL="http://localhost:3000";
+let history=[];
+let current=-1;
+setInterval(() => {
+    if(current >= 0 && history[current]){
+        history[current].code =
+            document.getElementById("code").value;
+    }
+}, 1000);
+
+let topic=localStorage.getItem("selectedTopic") || "arrays";
+let difficulty=localStorage.getItem("selectedDifficulty") || "easy";
+
+async function loadQuestion(){
+document.getElementById("question").innerText="Loading...";
+const res=await fetch(API_URL+"/generate-question",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+topic:topic,
+difficulty:difficulty,
+language:document.getElementById("language").value,
+company:document.getElementById("company").value
+})
+});
+const data=await res.json();
+document.getElementById("question").innerText=data.question || "No question";
+history.push(data.question||"");
+current=history.length-1;
+document.getElementById("count").innerText=history.length;
+document.getElementById("mentor").innerText="Read the problem carefully, identify the data structure, then derive the optimal complexity.";
+}
+
+function prevQuestion(){
+if(current>0){
+current--;
+document.getElementById("question").innerText =
+    history[current].question;
+
+document.getElementById("code").value =
+    history[current].code || "";
+}
+}
+
+function showHint(){
+document.getElementById("mentor").innerText+="\n\nHint: Think about using an efficient data structure and reducing nested loops.";
+}
+
+function showApproach(){
+document.getElementById("mentor").innerText+="\n\nApproach: Start with brute force, then optimize using hashing, two pointers, binary search, trees, graphs, DP, or greedy techniques depending on the topic.";
+}
+
+async function runCode(){
+const res=await fetch(API_URL+"/run-code",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+code:document.getElementById("code").value,
+language:document.getElementById("language").value
+})
+});
+const data=await res.json();
+document.getElementById("output").innerText=data.output || JSON.stringify(data,null,2);
+}
+
+async function analyzeCode(){
+const res=await fetch(API_URL+"/analyze-code",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+code:document.getElementById("code").value,
+language:document.getElementById("language").value
+})
+});
+const data=await res.json();
+document.getElementById("output").innerText=data.result || JSON.stringify(data,null,2);
+}
+
+loadQuestion();
+async function loadQuestion(){
+  try {
+    document.getElementById("question").innerText="Loading...";
+
+    const res = await fetch(API_URL+"/generate-question", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({
+        topic,
+        difficulty,
+        language: document.getElementById("language").value,
+        company: document.getElementById("company").value
+      })
+    });
+
+    const data = await res.json();
+    console.log("API RESPONSE:", data);
+
+    document.getElementById("question").innerText =
+      data.question || "No question received";
+
+      // Clear editor for new question
+document.getElementById("code").value = "";
+document.getElementById("output").innerText = "";
+
+// Save question in history
+history.push({
+    question: data.question || "",
+    code: ""
+});
+
+current = history.length - 1;
+
+document.getElementById("count").innerText = history.length;
+
+    document.getElementById("mentor").innerText =
+      "Read the problem carefully, identify the data structure, then derive the optimal complexity.";
+
+  } catch (err) {
+    console.error("LOAD QUESTION ERROR:", err);
+    document.getElementById("question").innerText =
+      "Error loading question. Check console.";
+  }
+}
+
+function clearCode(){
+    if(confirm("Clear all code?")){
+        document.getElementById("code").value = "";
+        document.getElementById("output").innerText = "";
+    }
+}
+
+</script>
+<script>
+function goBack(){
+    window.history.back();
+}
+</script>
+
+
+</body>
+</html>

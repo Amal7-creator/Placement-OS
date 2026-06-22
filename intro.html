@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Placement OS | AI Placement Preparation</title>
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<style>
+
+*{
+  font-family:'Poppins',sans-serif;
+  scroll-behavior:smooth;
+}
+
+body{
+
+  background:
+  linear-gradient(rgba(4,8,20,0.88), rgba(4,8,20,0.92)),
+  url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop');
+
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+
+  color:white;
+  overflow-x:hidden;
+}
+
+/* Glow Effects */
+
+.glow1{
+  position:absolute;
+  width:400px;
+  height:400px;
+  background:#2563eb;
+  border-radius:50%;
+  filter:blur(130px);
+  opacity:0.18;
+  top:-120px;
+  left:-120px;
+}
+
+.glow2{
+  position:absolute;
+  width:350px;
+  height:350px;
+  background:#8b5cf6;
+  border-radius:50%;
+  filter:blur(120px);
+  opacity:0.18;
+  bottom:-120px;
+  right:-120px;
+}
+
+/* Navbar */
+
+.navbar{
+  background:rgba(15,23,42,0.55);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+/* Buttons */
+
+.main-btn{
+  padding:15px 30px;
+  border-radius:18px;
+  font-weight:600;
+  transition:0.3s ease;
+}
+
+.main-btn:hover{
+  transform:translateY(-3px);
+}
+
+.login-btn{
+  background:linear-gradient(to right,#2563eb,#06b6d4);
+}
+
+.login-btn:hover{
+  box-shadow:0 10px 30px rgba(37,99,235,0.45);
+}
+
+.secondary-btn{
+  background:#111827;
+  border:1px solid #374151;
+}
+
+.secondary-btn:hover{
+  border-color:#3b82f6;
+}
+
+/* Cards */
+
+.feature-card{
+  background:rgba(17,24,39,0.75);
+  border:1px solid rgba(255,255,255,0.06);
+  backdrop-filter:blur(18px);
+  transition:0.3s ease;
+}
+
+.feature-card:hover{
+  transform:translateY(-8px);
+  border-color:#3b82f6;
+  box-shadow:0 15px 40px rgba(59,130,246,0.15);
+}
+
+/* Hero Gradient Text */
+
+.gradient-text{
+  background:linear-gradient(to right,#60a5fa,#22d3ee,#a78bfa);
+
+  -webkit-background-clip:text;
+  
+  -webkit-text-fill-color:transparent;
+}
+
+/* Animation */
+
+.fade-up{
+  animation:fadeUp 1s ease;
+}
+
+@keyframes fadeUp{
+
+  from{
+    opacity:0;
+    transform:translateY(40px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- GLOW EFFECTS -->
+<div class="glow1"></div>
+<div class="glow2"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar fixed w-full top-0 z-50 px-4 md:px-10 py-3 flex items-center justify-between">
+
+  <!-- LOGO -->
+  <div class="flex items-center gap-2">
+
+    <div class="w-9 h-9 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-400 flex items-center justify-center text-lg shadow-lg shadow-blue-500/30">
+      <i class="fa-solid fa-code"></i>
+    </div>
+
+    <h1 class="text-xl font-bold">
+      Placement OS
+    </h1>
+
+  </div>
+
+  <!-- LOGIN BUTTON -->
+  <a href="login.html">
+
+    <button class="main-btn login-btn text-white flex items-center gap-2 px-3 py-1.5 text-sm">
+
+      <i class="fa-solid fa-right-to-bracket"></i>
+      Login
+
+    </button>
+
+  </a>
+
+</nav>
+
+<!-- HERO SECTION -->
+<section class="min-h-screen flex items-center justify-center text-center px-6 relative z-10">
+
+  <div class="max-w-5xl fade-up">
+
+    <!-- BADGE -->
+    <div class="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-[#111827]/70 border border-gray-700 mb-8">
+
+      <i class="fa-solid fa-sparkles text-cyan-400"></i>
+
+      
+
+    </div>
+
+    <!-- TITLE -->
+    <h1 class="text-5xl md:text-7xl font-extrabold leading-tight">
+
+      Crack Your <span class="gradient-text">Dream Placement</span>
+
+      <br>
+
+      With AI Guidance
+
+    </h1>
+
+    <!-- DESCRIPTION -->
+    <p class="mt-8 text-gray-300 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
+
+      Master DSA, Aptitude, Resume Building, Mock Interviews,
+      and Company Preparation with one powerful AI-driven platform
+      designed specially for CSE students.
+
+    </p>
+
+    <!-- BUTTONS -->
+    <div class="mt-12 flex flex-col md:flex-row items-center justify-center gap-5">
+
+      <a href="login.html">
+
+        <button class="main-btn login-btn text-white flex items-center gap-3">
+
+          <i class="fa-solid fa-rocket"></i>
+          Get Started
+
+        </button>
+
+      </a>
+
+    </div>
+
+    <!-- STATS -->
+    <div class="mt-16 grid md:grid-cols-3 gap-6">
+
+      <div class="feature-card p-6 rounded-3xl">
+
+        <h2 class="text-4xl font-bold text-cyan-400">
+          500+
+        </h2>
+
+        <p class="mt-3 text-gray-400">
+          Company Preparation Tracks
+        </p>
+
+      </div>
+
+      <div class="feature-card p-6 rounded-3xl">
+
+        <h2 class="text-4xl font-bold text-cyan-400">
+          AI
+        </h2>
+
+        <p class="mt-3 text-gray-400">
+          Personalized Roadmaps & Guidance
+        </p>
+
+      </div>
+
+      <div class="feature-card p-6 rounded-3xl">
+
+        <h2 class="text-4xl font-bold text-cyan-400">
+          24/7
+        </h2>
+
+        <p class="mt-3 text-gray-400">
+          Smart Learning & Interview Practice
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- FEATURES SECTION -->
+<section class="px-6 md:px-16 py-24 relative z-10">
+
+  <div class="text-center">
+
+    <h2 class="text-4xl font-bold">
+      Everything You Need To Get Placed
+    </h2>
+
+    <p class="text-gray-400 mt-4 text-lg">
+      Smart tools built for modern placement preparation
+    </p>
+
+  </div>
+
+  <!-- FEATURES -->
+  <div class="grid md:grid-cols-3 gap-8 mt-16">
+
+    <!-- CARD 1 -->
+    <div class="feature-card rounded-3xl p-8">
+
+      <div class="text-4xl text-cyan-400">
+        <i class="fa-solid fa-brain"></i>
+      </div>
+
+      <h3 class="text-2xl font-bold mt-6">
+        AI Roadmaps
+      </h3>
+
+      <p class="text-gray-400 mt-4 leading-relaxed">
+        Personalized daily preparation plans based on your target companies and skill level.
+      </p>
+
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="feature-card rounded-3xl p-8">
+
+      <div class="text-4xl text-cyan-400">
+        <i class="fa-solid fa-laptop-code"></i>
+      </div>
+
+      <h3 class="text-2xl font-bold mt-6">
+        DSA Practice
+      </h3>
+
+      <p class="text-gray-400 mt-4 leading-relaxed">
+        Practice coding questions asked in top product and service companies.
+      </p>
+
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="feature-card rounded-3xl p-8">
+
+      <div class="text-4xl text-cyan-400">
+        <i class="fa-solid fa-user-tie"></i>
+      </div>
+
+      <h3 class="text-2xl font-bold mt-6">
+        Mock Interviews
+      </h3>
+
+      <p class="text-gray-400 mt-4 leading-relaxed">
+        Build confidence with AI-powered technical and HR interview simulations.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- CTA SECTION -->
+<section class="px-6 py-24 text-center relative z-10">
+
+  <div class="max-w-4xl mx-auto feature-card rounded-[40px] p-12">
+
+    <h2 class="text-5xl font-bold leading-tight">
+      Ready To Start Your Placement Journey?
+    </h2>
+
+    <p class="text-gray-400 mt-6 text-lg">
+      Join Placement OS today and prepare smarter with AI.
+    </p>
+
+    <a href="login.html">
+
+      <button class="main-btn login-btn text-white mt-10 flex items-center gap-3 mx-auto">
+
+        <i class="fa-solid fa-arrow-right"></i>
+        Continue To Login
+
+      </button>
+
+    </a>
+
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="text-center py-10 text-gray-500 text-sm relative z-10">
+
+  Built for CSE Students • Placement OS © 2026
+
+</footer>
+
+</body>
+</html>
