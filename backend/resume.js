@@ -58,7 +58,7 @@ function downloadReport() {
 async function analyzeWithAI(prompt) {
   try {
     const response = await fetch(
-      "http://localhost:3000/analyze-resume",
+      "https://placement-os-8s7f.onrender.com/analyze-resume",
       {
         method: "POST",
         headers: {
