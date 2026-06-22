@@ -91,7 +91,7 @@ html{
 
 <body>
 
- <script>
+  <script>
   if (localStorage.getItem("loggedIn") !== "true") {
     window.location.href = "intro.html";
   }
@@ -127,11 +127,11 @@ html{
       </a>
 
       <!-- LOGOUT -->
-    <a href="intro.html"
-   onclick="localStorage.removeItem('loggedIn')"
-   class="bg-blue-600 hover:bg-blue-700 transition px-5 py-2 rounded-xl font-medium">
-  Logout
-</a>
+      <a href="intro.html"
+         class="bg-blue-600 hover:bg-blue-700 transition px-5 py-2 rounded-xl font-medium">
+        Logout
+      </a>
+
     </div>
 
   </div>
@@ -206,7 +206,7 @@ html{
   <div class="mt-14 grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
 
     <!-- AI DOUBT SOLVER -->
-    <a href="pages/AI.html">
+    <a href="AI.html"
        class="glass rounded-3xl p-8 card block hover:border-blue-500">
 
       <div class="text-4xl">🤖</div>
