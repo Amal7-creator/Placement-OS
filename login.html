@@ -406,16 +406,18 @@ document
 
   try {
 
-    await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    const userCredential = await signInWithEmailAndPassword(
+  auth,
+  email,
+  password
+);
 
-    alert("Login Successful");
+console.log("LOGIN SUCCESS", userCredential.user);
 
-    // Change destination page if needed
-    window.location.href = "index.html";
+alert("Login Successful");
+
+// temporary test
+window.location.href = "./index.html";
 
   }
   catch(error){
