@@ -416,9 +416,9 @@ console.log("LOGIN SUCCESS", userCredential.user);
 
 alert("Login Successful");
 
-// temporary test
-window.location.href = "./index.html";
+localStorage.setItem("loggedIn", "true");
 
+window.location.href = "./index.html";
   }
   catch(error){
         alert("❌ Invalid email or password");
@@ -432,7 +432,6 @@ window.location.href = "./index.html";
 });
 
 
-document
 document
 .getElementById("googleLoginBtn")
 .addEventListener("click", async () => {
