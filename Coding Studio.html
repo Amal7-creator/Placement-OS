@@ -181,7 +181,7 @@ async function runCode() {
 
   try {
 
-    const res = await fetch("https://placement-os-8s7f.onrender.come", {
+   const res = await fetch("https://placement-os-8s7f.onrender.com/run-code", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -245,7 +245,7 @@ async function runCode() {
     const output = document.getElementById("output");
     output.innerText = "⏳ Generating...";
 
-    const res = await fetch("https://placement-os-8s7f.onrender.com", {
+    const res = await fetch("https://placement-os-8s7f.onrender.com/generate-question", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -260,12 +260,17 @@ async function runCode() {
     output.innerText = data.question;
   }
 
+
+  const language = document.getElementById("language");
+const difficulty = document.getElementById("difficulty");
+const topic = document.getElementById("topic");
+
   // SUBMIT CODE
   async function submitCode() {
     const aiOutput = document.getElementById("aiOutput");
     aiOutput.innerText = "⏳ Analyzing...";
 
-    const res = await fetch("https://placement-os-8s7f.onrender.com", {
+    const res = await fetch("https://placement-os-8s7f.onrender.com/analyze-code", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
