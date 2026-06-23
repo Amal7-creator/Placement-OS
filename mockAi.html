@@ -481,7 +481,7 @@ payload
 
     const res = await fetch(
 
-      `https://placement-os-8s7f.onrender.com//${endpoint}`,
+      `https://placement-os-8s7f.onrender.com${endpoint}`,
 
       {
         method:"POST",
@@ -553,12 +553,40 @@ async function startInterview(){
 
 async function loadNextQuestion(){
 
- await apiCall("/generate-question", {
-  role,
-  previousQuestions: questions,
-  previousAnswers: answers
-});
+ async function loadNextQuestion(){
+
+  const result = await apiCall(
+    "/generate-question",
+    {
+      role,
+      previousQuestions: questions,
+      previousAnswers: answers
+    }
+  );
+
+  console.log(result);
+
   if(!result.success){
+    alert("Unable to load question");
+    return;
+  }
+
+  currentQuestion = result.question;
+
+  questions.push(currentQuestion);
+
+  document.getElementById("question").innerText =
+    currentQuestion;
+
+  document.getElementById("questionCount").innerText =
+    `Question ${questions.length}`;
+
+  document.getElementById("answer").value = "";
+
+  updateProgressBar();
+
+  startTimer();
+}
 
     alert(
       "Unable to load question"
