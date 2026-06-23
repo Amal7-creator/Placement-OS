@@ -104,7 +104,7 @@ async function sleep(ms) {
 
 async function generateWithRetry(
   prompt,
-  retries = 3
+  retries = 5
 ) {
 
   for (
@@ -153,7 +153,7 @@ async function generateWithRetry(
 
       }
 
-      await sleep(2000);
+     await sleep(5000);
 
     }
 
