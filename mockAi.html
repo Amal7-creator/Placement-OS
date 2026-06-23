@@ -553,18 +553,11 @@ async function startInterview(){
 
 async function loadNextQuestion(){
 
-  const result =
-    await apiCall(
-      "/next-question",
-      {
-        role,
-        previousQuestions:
-          questions,
-        previousAnswers:
-          answers
-      }
-    );
-
+ await apiCall("/generate-question", {
+  role,
+  previousQuestions: questions,
+  previousAnswers: answers
+});
   if(!result.success){
 
     alert(
