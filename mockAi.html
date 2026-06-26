@@ -322,6 +322,10 @@
 
       </button>
 
+       <button onclick="endInterview()" class="bg-red-600 py-3 rounded-xl btn">
+    🏁 End Interview
+</button>
+
     </div>
 
     <!-- FEEDBACK -->
@@ -687,15 +691,10 @@
           .value
           .trim();
 
-      if (
-        !answer &&
-        answers.length > 0
-      ) {
-
-        return;
-
-      }
-
+     if (!answer) {
+    alert("Please enter an answer or skip the question.");
+    return;
+}
       answers.push(answer);
 
       const result =
@@ -1006,10 +1005,12 @@ ${reportResult.report || ""}
 
       });
 
-      localStorage.setItem(
-        "interviewHistory",
-        JSON.stringify(history)
-      );
+    localStorage.setItem(
+    "interviewHistory",
+    JSON.stringify(history)
+);
+
+loadHistory();
 
     }
     // =========================
@@ -1227,7 +1228,17 @@ ${reportResult.report || ""}
 
     function goBack() {
       window.location.href = "index.html";
+
     }
+function endInterview() {
+
+    if (confirm("Are you sure you want to end the interview?")) {
+
+        finishInterview();
+
+    }
+
+}
 
   </script>
 
