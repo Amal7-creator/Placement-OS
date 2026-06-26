@@ -406,17 +406,18 @@ document
 
   try {
 
-    const userCredential = await signInWithEmailAndPassword(
+   const userCredential = await signInWithEmailAndPassword(
   auth,
   email,
   password
 );
 
-console.log("LOGIN SUCCESS", userCredential.user);
-
-alert("Login Successful");
+const user = userCredential.user;
 
 localStorage.setItem("loggedIn", "true");
+localStorage.setItem("userUID", user.uid);
+
+alert("Login Successful");
 
 window.location.href = "./index.html";
   }
@@ -445,14 +446,18 @@ document
       googleProvider
     );
 
-    const user = result.user;
+   const user = result.user;
 
-    alert(
-      "Logged in as: " +
-      user.email
-    );
+localStorage.setItem("loggedIn", "true");
+localStorage.setItem("userUID", user.uid);
 
-    window.location.href = "index.html";
+
+alert(
+  "Logged in as: " +
+  user.email
+);
+
+window.location.href = "index.html";
 
   } catch (error) {
 

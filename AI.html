@@ -166,11 +166,13 @@ Send
 const chat = document.getElementById("chat");
 const input = document.getElementById("input");
 
+const userUID = localStorage.getItem("userUID");
+
 let history =
-JSON.parse(localStorage.getItem("chat_ai")) || [];
+JSON.parse(localStorage.getItem("chat_ai_" + userUID)) || [];
 
 function saveHistory(){
-localStorage.setItem("chat_ai", JSON.stringify(history));
+localStorage.setItem("chat_ai_" + userUID, JSON.stringify(history));
 }
 
 function formatAIResponse(text){
@@ -316,7 +318,7 @@ sendMsg();
 
 document.getElementById("clearBtn").onclick=()=>{
 
-localStorage.removeItem("chat_ai");
+localStorage.removeItem("chat_ai_" + userUID);
 
 history=[];
 

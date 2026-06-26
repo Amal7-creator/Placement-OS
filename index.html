@@ -128,7 +128,11 @@ html{
 
       <!-- LOGOUT -->
     <a href="#"
-   onclick="localStorage.removeItem('loggedIn'); window.location.href='intro.html'; return false;"
+   onclick="
+localStorage.removeItem('loggedIn');
+localStorage.removeItem('userUID');
+window.location.href='intro.html';
+return false;"
    class="bg-blue-600 hover:bg-blue-700 transition px-5 py-2 rounded-xl font-medium">
   Logout
 </a>
