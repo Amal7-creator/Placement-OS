@@ -446,6 +446,23 @@ class="mt-4 bg-indigo-600 py-3 rounded-xl btn w-full">
 
     let interviewActive = false;
 
+
+
+
+    // =========================
+// CURRENT USER HISTORY KEY
+// =========================
+
+function getHistoryKey() {
+
+    const uid = localStorage.getItem("userUID");
+
+    if (!uid) {
+        return "interviewHistory_guest";
+    }
+
+    return `interviewHistory_${uid}`;
+}
     
 
 
@@ -1024,6 +1041,8 @@ ${reportResult.success ? reportResult.report : "Unable to generate report."}
 document.getElementById("report").innerHTML = reportHTML;
 
 // Save Interview History
+
+console.log(reportHTML);
 saveHistory(finalScore, reportHTML);
 
     } catch (error) {
@@ -1046,10 +1065,10 @@ saveHistory(finalScore, reportHTML);
     // SAVE HISTORY
     // =========================
 
-   function saveHistory(score, reportHTML) {
+function saveHistory(score, reportHTML) {
 
     let history = JSON.parse(
-        localStorage.getItem("interviewHistory") || "[]"
+        localStorage.getItem(getHistoryKey()) || "[]"
     );
 
     history.unshift({
@@ -1060,18 +1079,27 @@ saveHistory(finalScore, reportHTML);
 
         score,
 
-        questions: questions.length,
+        questionsCount: questions.length,
+
+        questions: [...questions],
+
+        answers: [...answers],
+
+        scores: [...scores],
+
+        feedbacks: [...feedbacks],
 
         report: reportHTML
 
     });
 
     localStorage.setItem(
-        "interviewHistory",
+        getHistoryKey(),
         JSON.stringify(history)
     );
 
     loadHistory();
+
 }
     // =========================
     // LOAD HISTORY
@@ -1079,7 +1107,7 @@ saveHistory(finalScore, reportHTML);
 function loadHistory() {
 
     const history = JSON.parse(
-        localStorage.getItem("interviewHistory") || "[]"
+        localStorage.getItem(getHistoryKey()) || "[]"
     );
 
     const container = document.getElementById("historyBox");
@@ -1107,7 +1135,7 @@ function loadHistory() {
 
             <div>📊 ${item.score}/100</div>
 
-            <div>❓ ${item.questions} Questions</div>
+            <div>❓ ${item.questionsCount} Questions</div>
 
             <div class="text-blue-400 mt-2">
                 📄 Click to View Report
@@ -1126,22 +1154,108 @@ function loadHistory() {
 
 //open history report
 function openHistoryReport(index) {
+  document.getElementById("report").innerHTML = "";
 
     const history = JSON.parse(
-        localStorage.getItem("interviewHistory") || "[]"
+        localStorage.getItem(getHistoryKey()) || "[]"
     );
 
     const interview = history[index];
 
-    document.getElementById("report").innerHTML = interview.report;
+    document.getElementById("interviewBox").classList.add("hidden");
 
-    document.getElementById("resultBox").classList.remove("hidden");
+document.getElementById("resultBox").classList.remove("hidden");
+
+    let html = "";
+
+    html += interview.report;
+
+    html += `
+        <div class="badge mt-6">
+            <h3 class="text-xl font-bold mb-4">
+                Complete Interview Review
+            </h3>
+    `;
+
+    interview.questions.forEach((question, i) => {
+
+        const score = interview.scores[i] || {};
+
+        html += `
+
+        <div class="badge mt-4">
+
+            <h4 class="font-bold">
+                Question ${i + 1}
+            </h4>
+
+            <p class="mt-2">
+                ${question}
+            </p>
+
+            <hr class="my-3 border-gray-700">
+
+            <h4 class="font-bold">
+                Your Answer
+            </h4>
+
+            <p class="mt-2 whitespace-pre-wrap">
+                ${interview.answers[i]}
+            </p>
+
+            <hr class="my-3 border-gray-700">
+
+            <h4 class="font-bold">
+                AI Feedback
+            </h4>
+
+            <p class="mt-2 whitespace-pre-wrap">
+                ${interview.feedbacks[i]}
+            </p>
+
+            <hr class="my-3 border-gray-700">
+
+            <p>
+                Technical :
+                ${score.technical}/10
+            </p>
+
+            <p>
+                Communication :
+                ${score.communication}/10
+            </p>
+
+            <p>
+                Problem Solving :
+                ${score.problemSolving}/10
+            </p>
+
+            <p>
+                Confidence :
+                ${score.confidence}/10
+            </p>
+
+            <p class="font-bold mt-2">
+                Overall :
+                ${score.overall}/10
+            </p>
+
+        </div>
+
+        `;
+
+    });
+
+    html += "</div>";
+
+    document.getElementById("report").innerHTML = html;
 
     document.getElementById("resultBox").scrollIntoView({
         behavior: "smooth"
     });
 
 }
+window.getSelection().removeAllRanges();
 
     // =========================
     // PDF EXPORT
