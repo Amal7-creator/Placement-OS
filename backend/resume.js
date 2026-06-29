@@ -1,5 +1,20 @@
 let resumeText = "";
 
+// ===========================
+// CURRENT USER STORAGE KEY
+// ===========================
+
+function getResumeKey() {
+
+    const uid = localStorage.getItem("userUID");
+
+    if (!uid) {
+        return "resume_guest";
+    }
+
+    return `resume_${uid}`;
+}
+
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
@@ -213,6 +228,17 @@ ${text.slice(0, 5000)}
       status.innerText =
         "Analysis Completed ✅";
 
+        // Save only for current user
+localStorage.setItem(getResumeKey(), JSON.stringify({
+
+    resumeText,
+    report: result,
+    resumeScore,
+    atsScore,
+    fixes: ""
+
+}));
+
     } catch (error) {
 
       console.error(error);
@@ -240,6 +266,18 @@ async function generateFixes() {
 
   fixBox.innerHTML =
     "Generating checklist...";
+
+    // Update saved data
+const saved = JSON.parse(
+    localStorage.getItem(getResumeKey()) || "{}"
+);
+
+saved.fixes = fixBox.innerHTML;
+
+localStorage.setItem(
+    getResumeKey(),
+    JSON.stringify(saved)
+);
 
   const prompt = `
 Create ATS resume improvement checklist.
@@ -276,3 +314,38 @@ window.analyzeResume = analyzeResume;
 window.generateFixes = generateFixes;
 
 console.log("resume.js loaded successfully");
+
+// ===========================
+// LOAD CURRENT USER RESUME
+// ===========================
+
+(function(){
+
+    const saved = JSON.parse(
+        localStorage.getItem(getResumeKey()) || "null"
+    );
+
+    if(!saved) return;
+
+    resumeText = saved.resumeText || "";
+
+    document.getElementById("output").innerHTML =
+        saved.report || "Upload a resume to generate AI report...";
+
+    document.getElementById("resumeScore").innerText =
+        saved.resumeScore || "--";
+
+    document.getElementById("atsScore").innerText =
+        saved.atsScore || "--";
+
+    document.getElementById("resumeBar").style.width =
+        (saved.resumeScore || 0) + "%";
+
+    document.getElementById("atsBar").style.width =
+        (saved.atsScore || 0) + "%";
+
+    document.getElementById("fixBox").innerHTML =
+        saved.fixes ||
+        "Upload and analyze resume to get improvement checklist...";
+
+})();

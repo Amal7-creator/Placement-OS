@@ -173,6 +173,47 @@ AI feedback will appear here...
 <script>
 
 
+// ==========================
+// CURRENT USER STORAGE KEY
+// ==========================
+
+function getCodingKey() {
+
+    const uid = localStorage.getItem("userUID");
+
+    if (!uid) {
+        return "coding_guest";
+    }
+
+    return `coding_${uid}`;
+}
+
+// ==========================
+// SAVE CURRENT USER DATA
+// ==========================
+
+function saveCodingData() {
+
+    localStorage.setItem(getCodingKey(), JSON.stringify({
+
+        question: document.getElementById("output").innerText,
+
+        code: document.getElementById("codeInput").value,
+
+        aiFeedback: document.getElementById("aiOutput").innerText,
+
+        programOutput: document.getElementById("codeOutput").innerText,
+
+        language: document.getElementById("language").value,
+
+        difficulty: document.getElementById("difficulty").value,
+
+        topic: document.getElementById("topic").value
+
+    }));
+
+}
+
 async function runCode() {
 
   const output = document.getElementById("codeOutput");
@@ -201,10 +242,13 @@ async function runCode() {
       data.error ||
       "No output";
 
+      saveCodingData();
+
   } catch (err) {
 
     output.innerText =
       "❌ Error running code.\n\n" + err.message;
+      saveCodingData();
 
   }
 }
@@ -216,9 +260,13 @@ async function runCode() {
 
   // COUNTER
   function updateCounter() {
+
     document.getElementById("counter").innerText =
-      document.getElementById("codeInput").value.length + " chars";
-  }
+        document.getElementById("codeInput").value.length + " chars";
+
+    saveCodingData();
+
+}  
 
   // TEMPLATE
   function insertTemplate() {
@@ -258,6 +306,8 @@ async function runCode() {
     const text = await res.text();
     const data = JSON.parse(text);
     output.innerText = data.question;
+
+saveCodingData();
   }
 
 
@@ -283,8 +333,48 @@ const topic = document.getElementById("topic");
     const data = JSON.parse(text);
 
     aiOutput.innerText = data.result;
+    saveCodingData();
     scrollToAI();
   }
+
+
+
+  // ==========================
+// LOAD CURRENT USER DATA
+// ==========================
+
+(function () {
+
+    const saved = JSON.parse(
+        localStorage.getItem(getCodingKey()) || "null"
+    );
+
+    if (!saved) return;
+
+    document.getElementById("output").innerText =
+        saved.question || "Waiting for question...";
+
+    document.getElementById("codeInput").value =
+        saved.code || "";
+
+    document.getElementById("aiOutput").innerText =
+        saved.aiFeedback || "AI feedback will appear here...";
+
+    document.getElementById("codeOutput").innerText =
+        saved.programOutput || "Program output will appear here...";
+
+    document.getElementById("language").value =
+        saved.language || "JavaScript";
+
+    document.getElementById("difficulty").value =
+        saved.difficulty || "Easy";
+
+    document.getElementById("topic").value =
+        saved.topic || "Arrays";
+
+    updateCounter();
+
+})();
 
 </script>
 
