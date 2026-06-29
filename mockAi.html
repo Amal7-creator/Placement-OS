@@ -103,16 +103,27 @@
     textarea {
       color: white;
     }
+
+    #report,
+#report * {
+    user-select: text;
+    -webkit-user-select: text;
+    cursor: text;
+}
+
+
   </style>
 
 </head>
 
 <body class="p-6 min-h-screen flex flex-col">
-  <button onclick="goBack()" class="fixed left-6 top-6 bg-gray-700 px-4 py-2 rounded-lg btn z-50">
+
+  
+  <button onclick="goBack()" class="fixed left-10 top-9 bg-gray-700 px-4 py-2 rounded-lg btn z-50">
     🔙 Back
   </button>
 
-  <div class="flex-grow"></div>
+  <!div class="flex-grow"></div>
 
   <!-- HEADER -->
 
@@ -310,19 +321,26 @@
 
       </button>
 
-      <button onclick="skipQuestion()" class="bg-orange-600 py-3 rounded-xl btn">
+      <button
+    id="nextBtn"
+    onclick="nextQuestion()"
+    class="bg-orange-600 py-3 rounded-xl btn"
+    disabled>
 
-        ⏭ Skip
+    ⏭ Next
 
-      </button>
+</button>
 
-      <button onclick="submitAnswer()" class="bg-green-600 py-3 rounded-xl btn">
+      <button
+id="submitBtn"
+onclick="submitAnswer()"
+class="bg-green-600 py-3 rounded-xl btn">
 
         ✅ Submit
 
       </button>
 
-       <button onclick="endInterview()" class="bg-red-600 py-3 rounded-xl btn">
+     <button onclick="finishInterview()" class="bg-red-600 py-3 rounded-xl btn">
     🏁 End Interview
 </button>
 
@@ -373,7 +391,15 @@
       📄 Final Interview Report
 
     </h2>
-    <div id="report" class="mt-4">
+   <div id="report" class="mt-4"></div>
+
+<button
+onclick="copyReport()"
+class="mt-4 bg-indigo-600 py-3 rounded-xl btn w-full">
+
+📋 Copy Report
+
+</button>
     </div>
 
     <div class="grid md:grid-cols-2 gap-4 mt-4">
@@ -419,6 +445,9 @@
     let paused = false;
 
     let interviewActive = false;
+
+    
+
 
     // =========================
     // API HELPER
@@ -468,6 +497,11 @@
 
     async function startInterview() {
 
+      const startBtn = document.querySelector('button[onclick="startInterview()"]');
+
+startBtn.disabled = true;
+startBtn.innerText = "Starting...";
+
       role =
         document.getElementById(
           "role"
@@ -479,6 +513,13 @@
       answers = [];
       scores = [];
       feedbacks = [];
+
+
+          // Reset interview UI
+    document.getElementById("feedbackBox").classList.add("hidden");
+    document.getElementById("scoreBreakdown").classList.add("hidden");
+    document.getElementById("liveScore").innerText = "0";
+    document.getElementById("progressBar").style.width = "0%";
 
       document
         .getElementById("loading")
@@ -498,12 +539,20 @@
         .getElementById("loading")
         .classList.add("hidden");
 
+        startBtn.disabled = false;
+startBtn.innerText = "🚀 Start Interview";
+
     }
     // =========================
     // LOAD NEXT QUESTION
     // =========================
 
     async function loadNextQuestion() {
+
+      const nextBtn = document.getElementById("nextBtn");
+
+nextBtn.disabled = true;
+nextBtn.innerText = "Next";
 
       const result = await apiCall(
         "/next-question",
@@ -514,10 +563,15 @@
         }
       );
 
-      if (!result.success) {
-        alert("Unable to load question");
-        return;
-      }
+     if (!result.success) {
+
+    hideLoading();
+
+    alert("Unable to load question");
+
+    return;
+
+}
 
       currentQuestion = result.question;
 
@@ -531,9 +585,19 @@
 
       document.getElementById("answer").value = "";
 
+      const submitBtn = document.getElementById("submitBtn");
+
+submitBtn.disabled = false;
+submitBtn.innerText = "✅ Submit";
+
+
+      document.getElementById("nextBtn").disabled = true;
+document.getElementById("nextBtn").classList.add("opacity-50");
+
       updateProgressBar();
 
       startTimer();
+      hideLoading();
 
     }
 
@@ -592,15 +656,25 @@
 
     }
 
-    function skipQuestion() {
+async function nextQuestion() {
 
-      answers.push(
-        "Skipped"
-      );
+    clearInterval(timerInterval);
 
-      loadNextQuestion();
+       
 
-    }
+
+    
+
+    // Hide previous feedback
+    document.getElementById("feedbackBox").classList.add("hidden");
+    document.getElementById("scoreBreakdown").classList.add("hidden");
+
+   showLoading("Generating next question...");
+
+await loadNextQuestion();
+nextBtn.innerText = "⏭ Next";
+
+}
 
     // =========================
     // PROGRESS BAR
@@ -608,11 +682,7 @@
 
     function updateProgressBar() {
 
-      let width =
-        Math.min(
-          questions.length * 5,
-          100
-        );
+     let width = Math.min(questions.length * 10, 100);
 
       document
         .getElementById(
@@ -677,11 +747,17 @@
     // SUBMIT ANSWER
     // =========================
 
-    async function submitAnswer() {
+   async function submitAnswer() {
 
-      clearInterval(
-        timerInterval
-      );
+    clearInterval(timerInterval);
+
+    showLoading("Evaluating your answer...");
+
+    const submitBtn = document.getElementById("submitBtn");
+
+submitBtn.disabled = true;
+submitBtn.innerText = "⏳ Evaluating...";
+
 
       const answer =
         document
@@ -691,8 +767,15 @@
           .value
           .trim();
 
-     if (!answer) {
-    alert("Please enter an answer or skip the question.");
+ if (!answer) {
+
+    hideLoading();
+
+    submitBtn.disabled = false;
+    submitBtn.innerText = "✅ Submit";
+
+    alert("Please enter an answer.");
+
     return;
 }
       answers.push(answer);
@@ -708,42 +791,20 @@
           }
         );
 
-      let scoreData = {
+let scoreData = {
+    technical: 0,
+    communication: 0,
+    problemSolving: 0,
+    confidence: 0,
+    overall: 0,
+    feedback: "No feedback"
+};
 
-        technical: 5,
-        communication: 5,
-        problemSolving: 5,
-        confidence: 5,
-        overall: 5,
-        feedback:
-          "No feedback"
-
-      };
-
-      try {
-
-        const cleaned =
-          result.result
-            .replace(
-              /```json/g,
-              ""
-            )
-            .replace(
-              /```/g,
-              ""
-            )
-            .trim();
-
-        scoreData =
-          JSON.parse(
-            cleaned
-          );
-
-      } catch (error) {
-
-        console.log(error);
-
-      }
+if (result.success && result.result) {
+    scoreData = result.result;
+} else {
+    console.error("Score API Error:", result);
+}
 
       scores.push(scoreData);
 
@@ -810,21 +871,27 @@
 
   `;
 
-      updateLiveScore();
+   updateLiveScore();
 
-      setTimeout(() => {
+submitBtn.innerText = "✔ Submitted";
 
-        loadNextQuestion();
+hideLoading();
 
-      }, 2000);
+
 
     }
+
 
     // =========================
     // LIVE SCORE
     // =========================
 
     function updateLiveScore() {
+  
+      document.getElementById("submitBtn").innerText = "✅ Submit";
+
+      document.getElementById("nextBtn").disabled = false;
+document.getElementById("nextBtn").classList.remove("opacity-50");
 
       if (scores.length === 0) {
 
@@ -860,222 +927,221 @@
         avg;
 
     }
+   
 
-    // =========================
-    // FINISH INTERVIEW
-    // =========================
+   // =========================
+// FINISH INTERVIEW
+// =========================
 
-    async function finishInterview() {
+async function finishInterview() {
 
-      interviewActive = false;
+    if (!confirm("Are you sure you want to end the interview?")) {
+        return;
+    }
 
-      clearInterval(
-        timerInterval
-      );
+    showLoading("Generating Interview Report...");
 
-      document
-        .getElementById(
-          "interviewBox"
-        )
-        .classList.add(
-          "hidden"
-        );
+    try {
 
-      document
-        .getElementById(
-          "resultBox"
-        )
-        .classList.remove(
-          "hidden"
-        );
-      const reportResult =
-        await apiCall(
-          "/interview-report",
-          {
+        interviewActive = false;
+        clearInterval(timerInterval);
+
+        document.getElementById("interviewBox").classList.add("hidden");
+        document.getElementById("resultBox").classList.remove("hidden");
+
+        // Get AI Report
+        const reportResult = await apiCall("/interview-report", {
             role,
             scores,
             feedbacks
-          }
+        });
+
+        // Calculate Final Score
+        let totalScore = scores.reduce(
+            (sum, item) => sum + (item.overall || 0),
+            0
         );
 
-      let totalScore =
-        scores.reduce(
-          (sum, item) =>
-            sum +
-            (item.overall || 0),
-          0
-        );
+        let finalScore = 0;
 
-      let finalScore =
-        Math.round(
-          (
-            totalScore /
-            (scores.length * 10)
-          ) * 100
-        );
+        if (scores.length > 0) {
+            finalScore = Math.round(
+                (totalScore / (scores.length * 10)) * 100
+            );
+        }
 
-      let performance =
-        finalScore >= 85
-          ? "Excellent 🚀"
-          : finalScore >= 70
-            ? "Very Good 👍"
-            : finalScore >= 50
-              ? "Good 🙂"
-              : "Needs Improvement 📚";
+        // Performance Text
+        let performance =
+            finalScore >= 85
+                ? "Excellent 🚀"
+                : finalScore >= 70
+                ? "Very Good 👍"
+                : finalScore >= 50
+                ? "Good 🙂"
+                : "Needs Improvement 📚";
 
-      let reportHTML = `
+        // Build Report
+        let reportHTML = `
 
-    <div class="badge">
+        <div class="badge">
 
-      <h3 class="text-xl font-bold">
-      ${role}
-      </h3>
+            <h3 class="text-xl font-bold">
+                ${role}
+            </h3>
 
-      <p class="mt-2">
-      Final Score:
-      <b>${finalScore}/100</b>
-      </p>
+            <p class="mt-2">
+                Final Score:
+                <b>${finalScore}/100</b>
+            </p>
 
-      <p class="mt-2">
-      Performance:
-      <b>${performance}</b>
-      </p>
+            <p class="mt-2">
+                Performance:
+                <b>${performance}</b>
+            </p>
 
-      <p class="mt-2">
-      Questions Answered:
-      <b>${questions.length}</b>
-      </p>
+            <p class="mt-2">
+                Questions Answered:
+                <b>${questions.length}</b>
+            </p>
 
-    </div>
+        </div>
 
-    <div class="badge">
+        <div class="badge">
 
-      <h3 class="font-bold">
-      AI Career Feedback
-      </h3>
+            <h3 class="font-bold">
+                AI Career Feedback
+            </h3>
 
-      <pre class="whitespace-pre-wrap mt-3">
-${reportResult.report || ""}
-      </pre>
+            <pre id="aiReportText"
+class="whitespace-pre-wrap mt-3 select-text bg-black/20 p-4 rounded-lg border border-white/10 overflow-auto">
+${reportResult.success ? reportResult.report : "Unable to generate report."}
+</pre>
 
-    </div>
+        </div>
+        `;
 
-  `;
+      // Show Report
+document.getElementById("report").innerHTML = reportHTML;
 
-      document
-        .getElementById(
-          "report"
-        )
-        .innerHTML =
-        reportHTML;
+// Save Interview History
+saveHistory(finalScore, reportHTML);
 
-      saveHistory(
-        finalScore
-      );
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Failed to generate interview report.");
+
+    } finally {
+
+        hideLoading();
 
     }
+
+}
+
+  
 
     // =========================
     // SAVE HISTORY
     // =========================
 
-    function saveHistory(
-      score
-    ) {
+   function saveHistory(score, reportHTML) {
 
-      let history =
-        JSON.parse(
-          localStorage.getItem(
-            "interviewHistory"
-          ) || "[]"
-        );
+    let history = JSON.parse(
+        localStorage.getItem("interviewHistory") || "[]"
+    );
 
-      history.unshift({
+    history.unshift({
 
-        date:
-          new Date()
-            .toLocaleString(),
+        date: new Date().toLocaleString(),
 
         role,
 
         score,
 
-        questions:
-          questions.length
+        questions: questions.length,
 
-      });
+        report: reportHTML
+
+    });
 
     localStorage.setItem(
-    "interviewHistory",
-    JSON.stringify(history)
-);
+        "interviewHistory",
+        JSON.stringify(history)
+    );
 
-loadHistory();
-
-    }
+    loadHistory();
+}
     // =========================
     // LOAD HISTORY
     // =========================
+function loadHistory() {
 
-    function loadHistory() {
+    const history = JSON.parse(
+        localStorage.getItem("interviewHistory") || "[]"
+    );
 
-      const history =
-        JSON.parse(
-          localStorage.getItem(
-            "interviewHistory"
-          ) || "[]"
-        );
+    const container = document.getElementById("historyBox");
 
-      const container =
-        document.getElementById(
-          "historyBox"
-        );
+    if (history.length === 0) {
 
-      if (
-        history.length === 0
-      ) {
-
-        container.innerHTML =
-          "No interviews yet";
-
+        container.innerHTML = "No interviews yet";
         return;
-      }
 
-      let html = "";
+    }
 
-      history.forEach(item => {
+    let html = "";
+
+    history.forEach((item, index) => {
 
         html += `
 
-    <div class="badge">
+        <div
+            class="badge cursor-pointer hover:bg-white/10 transition"
+            onclick="openHistoryReport(${index})">
 
-      <div>
-        📅 ${item.date}
-      </div>
+            <div>📅 ${item.date}</div>
 
-      <div>
-        💼 ${item.role}
-      </div>
+            <div>💼 ${item.role}</div>
 
-      <div>
-        📊 ${item.score}/100
-      </div>
+            <div>📊 ${item.score}/100</div>
 
-      <div>
-        ❓ ${item.questions}
-        Questions
-      </div>
+            <div>❓ ${item.questions} Questions</div>
 
-    </div>
+            <div class="text-blue-400 mt-2">
+                📄 Click to View Report
+            </div>
 
-    `;
+        </div>
 
-      });
+        `;
 
-      container.innerHTML =
-        html;
+    });
 
-    }
+    container.innerHTML = html;
+
+}
+
+
+//open history report
+function openHistoryReport(index) {
+
+    const history = JSON.parse(
+        localStorage.getItem("interviewHistory") || "[]"
+    );
+
+    const interview = history[index];
+
+    document.getElementById("report").innerHTML = interview.report;
+
+    document.getElementById("resultBox").classList.remove("hidden");
+
+    document.getElementById("resultBox").scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
 
     // =========================
     // PDF EXPORT
@@ -1149,6 +1215,10 @@ loadHistory();
           "hidden"
         );
 
+        document.getElementById("report").innerHTML = "";
+        hideLoading();
+        
+
       document
         .getElementById(
           "interviewBox"
@@ -1185,6 +1255,17 @@ loadHistory();
         )
         .style.width = "0%";
 
+        document.getElementById("question").innerText = "Waiting...";
+document.getElementById("answer").value = "";
+
+document.getElementById("loading").classList.add("hidden");
+
+document.getElementById("submitBtn").disabled = false;
+document.getElementById("submitBtn").innerText = "✅ Submit";
+
+document.getElementById("nextBtn").disabled = true;
+document.getElementById("nextBtn").classList.add("opacity-50");
+
     }
 
 
@@ -1196,61 +1277,96 @@ loadHistory();
     // Change this number
     // if you want longer sessions
 
-    const MAX_QUESTIONS = Infinity;
 
     // Override loadNextQuestion
 
-    const originalLoadNextQuestion =
-      loadNextQuestion;
-
-    loadNextQuestion =
-      async function () {
-
-        if (
-          questions.length >=
-          MAX_QUESTIONS
-        ) {
-
-          finishInterview();
-
-          return;
-        }
-
-        await originalLoadNextQuestion();
-
-      };
-
+    
     // =========================
     // INIT
     // =========================
 
     loadHistory();
 
-    function goBack() {
-      window.location.href = "index.html";
 
-    }
-function endInterview() {
+    function showLoading(message = "AI is thinking...") {
 
-    if (confirm("Are you sure you want to end the interview?")) {
+    document.getElementById("loadingPopup").classList.remove("hidden");
 
-        finishInterview();
+    document.querySelector("#loadingPopup p").innerText = message;
+
+}
+
+function hideLoading() {
+
+    document.getElementById("loadingPopup").classList.add("hidden");
+
+}
+
+
+// =========================
+// COPY REPORT
+// =========================
+
+async function copyReport() {
+
+    const report = document.getElementById("report").innerText;
+
+    try {
+
+        await navigator.clipboard.writeText(report);
+
+        alert("Report copied successfully!");
+
+    } catch {
+
+        alert("Unable to copy report.");
 
     }
 
 }
 
+// =========================
+// GO BACK
+// =========================
+
+function goBack() {
+    window.location.href = "index.html";
+}
+
+    
   </script>
 
 
-  </script>
 
   </div>
 
-  <footer class="mt-10 py-6 pb-0 text-center text-gray-400 border-t border-gray-700">
+  <footer class="mt-auto py-6 pb-0 text-center text-gray-400 border-t border-gray-700">
     <a href="termscondition.html" class="hover:text-white">
       Terms & Conditions
     </a>
+
+
+
+    <div id="loadingPopup"
+class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+
+    <div class="glass p-8 text-center">
+
+        <div class="text-3xl animate-pulse">
+
+            🤖
+
+        </div>
+
+        <p class="mt-4">
+
+            AI is thinking...
+
+        </p>
+
+    </div>
+
+</div>
 
 
 </body>

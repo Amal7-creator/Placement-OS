@@ -542,11 +542,10 @@ app.post(
         role
       } = req.body;
 
-      const prompt = `
-You are a senior interviewer.
+     const prompt = `
+You are an experienced ${role} interviewer.
 
-Role:
-${role}
+Evaluate the candidate's answer honestly.
 
 Question:
 ${question}
@@ -554,19 +553,27 @@ ${question}
 Candidate Answer:
 ${answer}
 
-Return ONLY JSON:
+Scoring Rules:
+- Technical: 0-10
+- Communication: 0-10
+- Problem Solving: 0-10
+- Confidence: 0-10
+- Overall: 0-10
+
+Do NOT give every category the same score unless the answer truly deserves it.
+
+Base the scores on the actual quality of the answer.
+
+Return ONLY valid JSON:
 
 {
-  "technical":0,
-  "communication":0,
-  "problemSolving":0,
-  "confidence":0,
-  "overall":0,
-  "feedback":"text"
+  "technical": 0,
+  "communication": 0,
+  "problemSolving": 0,
+  "confidence": 0,
+  "overall": 0,
+  "feedback": "Explain why these scores were given."
 }
-
-No markdown.
-No code blocks.
 `;
       const result =
         await generateWithRetry(
