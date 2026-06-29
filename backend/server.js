@@ -167,15 +167,15 @@ async function generateWithRetry(
 
 function formatAIResponse(text) {
 
-  if (!text) {
-    return "";
-  }
+    if (!text) return "";
 
-  return text
-    .replace(/\*\*/g, "")
-    .replace(/`/g, "")
-    .replace(/^###\s*/gm, "")
-    .trim();
+    return text
+        .replace(/```json/gi, "")
+        .replace(/```/g, "")
+        .replace(/\*\*/g, "")
+        .replace(/^###\s*/gm, "")
+        .replace(/`/g, "")
+        .trim();
 
 }
 
@@ -575,32 +575,38 @@ Return ONLY valid JSON:
   "feedback": "Explain why these scores were given."
 }
 `;
-      const result =
-        await generateWithRetry(
-          prompt
-        );
+     const result = await generateWithRetry(prompt);
+     console.log("========== GEMINI SCORE RESPONSE ==========");
+console.log(result);
+console.log("==========================================");
 
-      let parsed;
+// Remove ```json and ``` if Gemini returns them
+const cleanResult = result
+  .replace(/```json/gi, "")
+  .replace(/```/g, "")
+  .trim();
 
-      try {
+let parsed;
 
-        parsed =
-          JSON.parse(
-            result
-          );
+try {
 
-      } catch {
+  parsed = JSON.parse(cleanResult);
 
-        parsed = {
-          technical: 0,
-          communication: 0,
-          problemSolving: 0,
-          confidence: 0,
-          overall: 0,
-          feedback: result
-        };
+} catch (err) {
 
-      }
+  console.log("Invalid JSON from Gemini:");
+  console.log(cleanResult);
+
+  parsed = {
+    technical: 0,
+    communication: 0,
+    problemSolving: 0,
+    confidence: 0,
+    overall: 0,
+    feedback: cleanResult
+  };
+
+}
 
       res.json({
         success: true,
@@ -644,38 +650,68 @@ app.post(
         feedbacks
       } = req.body;
 
-      const prompt = `
-You are a professional interview coach.
+    const prompt = `
+You are a senior HR interviewer.
 
-Role:
+Candidate Role:
 ${role}
 
-Scores:
-${JSON.stringify(
-  scores
-)}
+Interview Scores:
+${JSON.stringify(scores)}
 
-Feedback:
-${JSON.stringify(
-  feedbacks
-)}
+Question Feedback:
+${JSON.stringify(feedbacks)}
 
-Generate:
+Write a professional interview report.
 
-1. Overall Performance
-2. Strengths
-3. Weaknesses
-4. Areas To Improve
-5. Hiring Recommendation
-6. Interview Readiness %
+Do NOT repeat the JSON.
 
-${FORMAT_RULES}
-`;
+Do NOT show scores again.
+
+Generate only this report:
+
+# Overall Performance
+
+# Strengths
+
+- point
+- point
+
+# Weaknesses
+
+- point
+- point
+
+# Suggestions
+
+- point
+- point
+
+# Hiring Recommendation
+
+One paragraph.
+
+# Interview Readiness
+
+Percentage out of 100.
+
+Write in clean English.
+
+No JSON.
+
+No markdown code blocks.
+
+No triple backticks.
+`;;
 
       const report =
         await generateWithRetry(
           prompt
         );
+
+        console.log("========== GEMINI REPORT ==========");
+console.log(report);
+console.log("==================================");
 
       res.json({
         success: true,

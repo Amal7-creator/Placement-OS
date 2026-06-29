@@ -807,6 +807,7 @@ submitBtn.innerText = "⏳ Evaluating...";
             answer
           }
         );
+        console.log("Score API:", result);
 
 let scoreData = {
     technical: 0,
@@ -817,9 +818,11 @@ let scoreData = {
     feedback: "No feedback"
 };
 
-if (result.success && result.result) {
-    scoreData = result.result;
-} else {
+if (result.success) {
+
+    scoreData = result.result || result;
+
+}else {
     console.error("Score API Error:", result);
 }
 
